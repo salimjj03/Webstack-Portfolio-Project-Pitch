@@ -6,6 +6,7 @@ this is the storage engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from models.base import base_db
+from models.admin import Admin
 from models.user import User
 from models.house import House
 from models.agent import Agent
@@ -13,7 +14,7 @@ from models.tenant import Tenant
 from models.occufied_house import Occufied_house
 from datetime import datetime
 
-classes = [User, Agent, Tenant, House, Occufied_house]
+classes = [User, Agent, Tenant, House, Occufied_house, Admin]
 
 class Db():
     """
@@ -37,7 +38,8 @@ class Db():
 
     def is_valid_cls(self, cls):
         """
-
+        this method return true if class is a valid one
+        else False
         """
 
         if isinstance(cls, str):
@@ -87,6 +89,62 @@ class Db():
             return result
         return None
 
+    def find_many_by_key(self, cls, **kwarg):
+        """
+        this method return cls obj base on the key value
+        if it exist else error
+        """
+
+        cls = self.is_valid_cls(cls)
+        if cls:
+            key = next(iter(kwarg))
+            value = kwarg.get(key)
+            result = self.__session.query(
+                    cls
+                    ).filter(getattr(cls, key) == value).all()
+            return result
+        return None
+
+    def occufied(self, agent_id=None):
+        """
+        this method return the occufied houses
+        """
+        
+        if agent_id == None:
+            result = self.__session.query(House).filter(
+                    House.agent_id != None,
+                    House.occufied_id != None
+                    ).all()
+
+            return result
+
+        else:
+            result = self.__session.query(House).filter(
+                    House.agent_id == agent_id,
+                    House.occufied_id != None
+                    ).all()
+
+            return result
+
+    def un_occufied(self, agent_id=None):
+        """
+        this method return the unoccufied houses
+        """
+
+        if agent_id == None:
+            result = self.__session.query(House).filter(
+                    House.occufied_id == None
+                    ).all()
+
+            return result
+
+        else:
+            result = self.__session.query(House).filter(
+                    House.agent_id == agent_id,
+                    House.occufied_id == None
+                    ).all()
+
+            return result
 
     def save(self, obj):
         """
@@ -111,8 +169,10 @@ class Db():
                 else:
                     print("invalid key {}".format(key))
             self.__session.commit()
-            return ("record updated successifully")
-        return ("obj not found")
+            print("record updated successifully")
+            return True
+        print("obj not found")
+        return False
 
     def delete(self, cls, id):
         """
@@ -123,8 +183,10 @@ class Db():
         if obj:
             self.__session.delete(obj)
             self.__session.commit()
-            return ("obj deleted successufully")
-        return ("obj not found")
+            print("obj deleted successufully")
+            return True
+        print ("obj not found")
+        return False
 
     def session(self):
 

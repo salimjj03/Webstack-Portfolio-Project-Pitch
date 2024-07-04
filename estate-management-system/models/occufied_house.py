@@ -18,16 +18,12 @@ class Occufied_house(Base, base_db):
             nullable=False
             )
 
-    agent_id = Column(
-            String(45),
-            ForeignKey("agents.id", ondelete="CASCADE"),
-            nullable=False
-            )
-
     house_id = Column(
             String(45),
             ForeignKey("houses.id", ondelete="CASCADE"),
             nullable=False
             )
+
+    occufied_status = Column(Integer, default=1)
     payment_status = Column(Integer, default=0)
     expire_date = Column(DateTime)
