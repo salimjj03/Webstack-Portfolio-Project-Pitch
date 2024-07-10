@@ -54,6 +54,17 @@ class Tenant(User, base_db):
                 Occufied_house,
                 id=occupied_id
                 )
+        if occupied_house == None:
+            print("invalid occupied_id")
+            return False
+
+        if occupied_house.tenant_id != self.id:
+            print("house is not occupied by the current tenant")
+            return False
+
+        if occupied_house.occufied_status != 1:
+            print("this occufied house is not active")
+            return False
 
         expire_date = occupied_house.expire_date + timedelta(days=360)
 
@@ -76,3 +87,22 @@ class Tenant(User, base_db):
         house.update(occufied_id=re_occupied.id)
         print("roll over successifull")
         return(True)
+
+    def cancel_reservation(self, occufied_id):
+        """
+        """
+
+        from models import storage
+
+        house = storage.find_obj_by_key(Occufied_house, id=occufied_id)
+        if house and house.tenant_id == self.id:
+            if house.payment_status == 0 and house.occufied_status == 1:
+                occupied_house = storage.find_obj_by_key(House, id=house.house_id)
+                occupied_house.update(occufied_id=None)
+                house.update(occufied_status=0)
+                print("reservation cancel")
+                return True
+            print("This reservation can not be cancel")
+            return False
+        print("invalid occufied_id")
+        return False

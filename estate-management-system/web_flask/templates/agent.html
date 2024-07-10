@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  type="text/css" href="/sstatic/style/reset.css">
+    <link rel="stylesheet"  type="text/css" href="/static/style/admin_agent.css">
+    <title>Estate Ease</title>
+    <style>
+    </style>
+</head>
+<body>
+    <header>
+	  <div class="p">
+	  <p class="name"><b>Estate<span>Ease<span></b></p>
+	  <p class="role">Making Real Estate Simple</p>
+	  </div>
+	  <ul class="nav">
+	    <li><b>Home</b></li>
+	    <li><b>About</b></li>
+            <li><b>Contact</b></li>
+            <li><b>Properties</b></li>
+	  </ul>
+    </header>
+    <div class="container">
+	<section class="mini-nav">
+	  <div>
+	    <p class="name"><b>{{ user.full_name  }}</b></p>
+	    <p class="role">{{ user.__class__.__name__  }}</p>
+	  </div>
+	    <ul class="nav">
+              <li>Home</li>
+              <li>Add-House</li>
+              <li>Add-Agent</li>
+              <li>Logout</li>
+            </ul>
+	</section>
+	<div class="img">
+		<h1> Un occupied House ({{ user.un_occufied() | length}})</h1>
+	  {% for house in user.un_occufied() %}
+	  <div class="image-box">
+	    <img src="../static/uploads/{{ house.id }}.jpg" alt="House Image">
+    
+	    <h2>{{ house.price }} per annum</h2>
+	    <p>{{ house.house_type  }}</p>
+ 	    <p>{{ house.location  }}</p>
+            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
+	      <input type="file" name="file">
+              <button type="submit"> submit </button>
+            </form>
+
+	  </div>
+    	  {% endfor  %}
+	</div>
+
+	<div class="img">
+                <h1> occupied House ({{ user.occufied() | length}})</h1>
+          {% for house in user.occufied() %}
+          <div class="image-box">
+            <img src="../static/uploads/{{ house.id }}.jpg" alt="House Image">
+
+            <h2>{{ house.price }} per annum</h2>
+            <p>{{ house.house_type  }}</p>
+            <p>{{ house.location  }}</p>
+            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
+              <input type="file" name="file">
+              <button type="submit"> submit </button>
+            </form>
+
+          </div>
+          {% endfor  %}
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 EstateEase. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -63,14 +63,7 @@ class Db():
         if cls:
             dic = {}
             result = self.__session.query(cls).all()
-            for obj in result:
-                key = "{}.{}".format(
-                        obj.__class__.__name__,
-                        obj.id
-                        )
-                dic[key] = obj
-
-            return dic
+            return result
         return None
 
     def find_obj_by_key(self, cls, **kwarg):

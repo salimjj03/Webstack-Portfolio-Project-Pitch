@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstateEase</title>
+    <link rel="stylesheet"  type="text/css" href="../sstatic/style/reset.css?{{ c_id  }}">
+    <link rel="stylesheet" type="text/css" href="/static/style/login.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="main">
+       <h1>EstateEase</h1>
+       <p>Making Real Estate Simple</p>
+    </div>
+    <fieldset>
+       <div class="form">
+         <form action="#" method="POST">
+            <input type="text" id="input"  name="email" placeholder="Enter username" required>
+            <input id="p" type="password"  id="input" name="password" placeholder="Enter password" required>
+            <input id="bot" type="submit"  value="Log-in">
+            <p>Forgotten password?<p/>
+	    <p id="d" style="color: red">{{ status }}</p>
+	</form>
+    </fieldset>
+    </div>
+
+    <script>
+      $(function(){
+	$("bot").on("click", function(){
+	  var email = $("INPUT[name='email']").val();
+	  var password = $("INPUT[name='password']").val();
+	  if (email === "" || password === "") {
+	    $("#d").text("User Name and password required")
+	    return
+	  }
+	}) 	
+      })
+    </script>
+</body>
+</html>
