@@ -11,7 +11,7 @@
 	a {
               text-decoration: none;
               color: black;
-        }
+         }
 
 	a:hover {
             border-left: solid 5px #22CE83;
@@ -29,7 +29,7 @@
 	  </div>
 	  <ul class="nav">
 	    <a href="/admin"><b>Home</b></a>
-            <a href="/about"><b>About</b></a>
+	    <a href="/about"><b>About</b></a>
             <a href="/contact"><b>Contact</b></a>
             <a href="/houses"><b>Properties</b></a>
 	  </ul>
@@ -42,40 +42,37 @@
 	  </div>
 	    <ul class="nav">
 	      <a href="/admin">Home</a>
-              <a href="/admin/add_house">Add-House</a>
+              <a href="/admin/add_agent">Add-Agent</a>
               <a href="/logout">Logout</a>
             </ul>
 	</section>
 	<div class="form-container">
-          <h2>Add New Admin / Agent</h2>
+          <h2>Add New House</h2>
 	  <p class="login-status"><b>{{ f_status  }}</b></p>
 	  <p class="login-status2"><b>{{ s_status  }}</b></p>
-          <form action="/admin/add_agent" method="POST">
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="full_name" required>
+          <form action="/admin/add_house" method="POST">
 
-	    <label for="name">User name:</label>
-            <input type="text" id="name" name="user_name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-	    <label for="name">Role:</label>
-	     <select name="role" required>
-                <option value="2">agent</option>
-                <option value="1">admin</option>
+	    <label for="name">Agent name:</label>
+	     <select name="agent_id" required>
+		<option value="">Select</option>
+		{% for agent in agents  %}
+		<option value="{{ agent.id }}">{{ agent.full_name  }}</option>
+		{% endfor %}
             </select>
 
-	    <label for="name">Phone no:</label>
-            <input type="text" id="name" name="phone_no" required>
+	    <label for="name">Price:</label>
+            <input type="text" id="name" name="price" required>
 
-	    <label for="name">address:</label>
-            <input type="text" id="name" name="address" required>
+	    <label for="name">Location:</label>
+            <input type="text" id="name" name="location" required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <label for="name">House type:</label>
+            <input type="text" id="name" name="house_type" required>
 
-            <input type="submit" value="Add User">
+	    <label for="name">Discription:</label>
+            <input type="text" id="name" name="discription">
+
+            <input type="submit" value="Add House">
           </form>
         </div>
     </div>

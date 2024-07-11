@@ -4,39 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EstateEase</title>
-    <link rel="stylesheet"  type="text/css" href="../sstatic/style/reset.css?{{ c_id  }}">
     <link rel="stylesheet" type="text/css" href="/static/style/login.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <style>
+      h1 {
+         font-size: 45px;
+         margin-bottom: 0px;
+         margin-top: 0px;
+      }
+
+      p {
+         margin: 0px;
+	}
+      a {
+	      text-decoration: none;
+	      color: white;
+      }
+
+      a:hover {
+            border-left: solid 5px #22CE83;
+            padding-left: 3px;
+            color: black;
+        }
+
+    </style>
 </head>
 <body>
   <div class="container">
     <div class="main">
-       <h1>EstateEase</h1>
+       <h1>Estate<span style="color: #22CE83">Ease</span></h1>
        <p>Making Real Estate Simple</p>
     </div>
-    <fieldset>
-       <div class="form">
-         <form action="#" method="POST">
-            <input type="text" id="input"  name="email" placeholder="Enter username" required>
-            <input id="p" type="password"  id="input" name="password" placeholder="Enter password" required>
-            <input id="bot" type="submit"  value="Log-in">
-            <p>Forgotten password?<p/>
-	    <p id="d" style="color: red">{{ status }}</p>
-	</form>
-    </fieldset>
+    <div class="container">
+        <div class="form-container">
+	  <p class="status">{{ f_status }}</p>
+          <h2>Create Account</h2>
+          <p class="login-status"><b>{{ f_status  }}</b></p>
+          <p class="login-status2"><b>{{ s_status  }}</b></p>
+          <form action="/login" method="POST">
+            
+	    <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <input type="submit" value="log in">
+	    <div class="sub">
+	      <p class="forgot">Forgotten password?</p>
+	      <div class="create"><a href="/add_tenant">Create new account</a></div>
+	    </div>
+          </form>
+        </div>
     </div>
 
-    <script>
-      $(function(){
-	$("bot").on("click", function(){
-	  var email = $("INPUT[name='email']").val();
-	  var password = $("INPUT[name='password']").val();
-	  if (email === "" || password === "") {
-	    $("#d").text("User Name and password required")
-	    return
-	  }
-	}) 	
-      })
-    </script>
+  </div>
 </body>
 </html>

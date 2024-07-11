@@ -23,7 +23,7 @@ def login():
         if user is None:
             return render_template(
                         "login.html",
-                        status="Invalid email or password")
+                        f_status="Invalid email or password")
 
         session["email"] = email
         session["role"] = user.__class__.__name__

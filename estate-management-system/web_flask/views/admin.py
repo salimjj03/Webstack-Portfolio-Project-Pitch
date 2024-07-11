@@ -8,6 +8,7 @@ from flask import redirect, url_for, request
 from models import storage
 from models.admin import Admin
 from models.agent import Agent
+from models.house import House
 from models.utill import Utill
 
 
@@ -64,3 +65,33 @@ def add_agent():
                     "add_agent.html",
                     user=user, s_status=status
                     )
+
+@app_view.route(
+        "/admin/add_house",
+        methods=["GET", "POST"],
+        strict_slashes=False
+        )
+def add_house():
+    """
+    """
+
+    user = storage.find_obj_by_key(
+                "Admin",
+                email=session["email"]
+                )
+    agents = storage.all("Agent")
+
+    if request.method == "GET":
+        return render_template("add_house.html", user=user, agents=agents)
+
+    if request.method == "POST":
+        data = request.form
+        house = House(**data)
+        house.price = "₦{}".format(house.price)
+        house.save()
+        return render_template(
+                "add_house.html",
+                user=user,
+                agents=agents,
+                s_status="House Added successfully"
+                )

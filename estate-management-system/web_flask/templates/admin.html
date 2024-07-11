@@ -7,6 +7,16 @@
     <link rel="stylesheet"  type="text/css" href="/static/style/admin_agent.css">
     <title>Estate Ease</title>
     <style>
+	a {
+              text-decoration: none;
+              color: black;
+         }
+
+	a:hover {
+	    border-left: solid 5px #22CE83;
+	    padding-left: 3px;
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -16,10 +26,10 @@
 	  <p class="role">Making Real Estate Simple</p>
 	  </div>
 	  <ul class="nav">
-	    <li><b>Home</b></li>
-	    <li><b>About</b></li>
-            <li><b>Contact</b></li>
-            <li><b>Properties</b></li>
+	    <a href="/admin"><b>Home</b></a>
+            <a href="/about"><b>About</b></a>
+            <a href="/contact"><b>Contact</b></a>
+            <a href="/houses"><b>Properties</b></a>
 	  </ul>
     </header>
     <div class="container">
@@ -29,10 +39,10 @@
 	    <p class="role">{{ user.__class__.__name__  }}</p>
 	  </div>
 	    <ul class="nav">
-              <li>Home</li>
-              <li>Add-House</li>
-              <li>Add-Agent</li>
-              <li>Logout</li>
+              <a href="/admin">Home</a>
+              <a href="/admin/add_house">Add-House</a>
+              <a href="/admin/add_agent">Add-Agent</a>
+              <a href="/logout">Logout</a>
             </ul>
 	</section>
 	<div class="img">
