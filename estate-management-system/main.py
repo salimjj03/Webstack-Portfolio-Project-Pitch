@@ -46,9 +46,9 @@ hos = {
 ad = storage.find_obj_by_key(Agent, id="415fa77f-ad8d-4cb0-afd9-47c3951bb2d3")
 te = storage.find_obj_by_key(Tenant, id="88c03360-6949-4ad9-9563-f43b863021bb")
 
-#te.reserve_house("527d3f09-d570-4056-8875-ef5c996f9c5b")
+te.reserve_house("527d3f09-d570-4056-8875-ef5c996f9c5b")
 #print(te.roll_over("3083949a-b785-459d-ae2a-56333c219b10"))
-te.cancel_reservation("9ce9b397-3175-4813-bcb5-da50a62fcaa8")
+#te.cancel_reservation("9ce9b397-3175-4813-bcb5-da50a62fcaa8")
 print(ad.occufied())
 
 

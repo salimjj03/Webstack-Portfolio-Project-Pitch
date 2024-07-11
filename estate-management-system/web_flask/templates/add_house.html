@@ -29,9 +29,8 @@
 	  </div>
 	  <ul class="nav">
 	    <a href="/admin"><b>Home</b></a>
-	    <a href="/about"><b>About</b></a>
-            <a href="/contact"><b>Contact</b></a>
-            <a href="/houses"><b>Properties</b></a>
+	    <a href="/admin/add_agent"><b>AddAgent</b></a>
+            <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>
     <div class="container">
@@ -40,11 +39,7 @@
 	    <p class="name"><b>{{ user.full_name  }}</b></p>
 	    <p class="role">{{ user.__class__.__name__  }}</p>
 	  </div>
-	    <ul class="nav">
-	      <a href="/admin">Home</a>
-              <a href="/admin/add_agent">Add-Agent</a>
-              <a href="/logout">Logout</a>
-            </ul>
+	  <a href="/agent"><h2 style="color: #808080"`>Dashboard</h2></a>
 	</section>
 	<div class="form-container">
           <h2>Add New House</h2>

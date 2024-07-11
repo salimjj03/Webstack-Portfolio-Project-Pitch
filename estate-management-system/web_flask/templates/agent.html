@@ -10,13 +10,24 @@
 	a {
               text-decoration: none;
               color: black;
-        }
+         }
 
 	a:hover {
-            border-left: solid 5px #22CE83;
-            padding-left: 3px;
+	    border-left: solid 5px #22CE83;
+	    padding-left: 3px;
             color: black;
         }
+
+	.image-box {
+            border: none;
+            background-color: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+	img {
+		background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	}
 
     </style>
 </head>
@@ -27,10 +38,7 @@
 	  <p class="role">Making Real Estate Simple</p>
 	  </div>
 	  <ul class="nav">
-	    <a href="/admin"><b>Home</b></a>
-            <a href="/about"><b>About</b></a>
-            <a href="/contact"><b>Contact</b></a>
-            <a href="/houses"><b>Properties</b></a>
+              <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>
     <div class="container">
@@ -40,19 +48,18 @@
 	    <p class="role">{{ user.__class__.__name__  }}</p>
 	  </div>
 	    <ul class="nav">
-	      <a href="/agent">Home</a>
-              <a href="/logout">Logout</a>
+		    <a href="/agent"><h2 style="color: #808080"`>Dashboard</h2></a>
             </ul>
 	</section>
 	<div class="img">
 		<h1> Un occupied House ({{ user.un_occufied() | length}})</h1>
 	  {% for house in user.un_occufied() %}
 	  <div class="image-box">
-	    <img src="../static/uploads/{{ house.id }}.jpg" alt="House Image">
+		  <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
     
-	    <h2>{{ house.price }} per annum</h2>
-	    <p>{{ house.house_type  }}</p>
- 	    <p>{{ house.location  }}</p>
+	    <h2 style="color: #808080">{{ house.price }} per annum</h2>
+	    <p style="color: #808080">{{ house.house_type  }}</p>
+ 	    <p style="color: #808080">{{ house.location  }}</p>
             <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
 	      <input type="file" name="file">
               <button type="submit"> submit </button>
@@ -65,12 +72,12 @@
 	<div class="img">
                 <h1> occupied House ({{ user.occufied() | length}})</h1>
           {% for house in user.occufied() %}
-          <div class="image-box">
-            <img src="../static/uploads/{{ house.id }}.jpg" alt="House Image">
+           <div class="image-box">
+	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
 
-            <h2>{{ house.price }} per annum</h2>
-            <p>{{ house.house_type  }}</p>
-            <p>{{ house.location  }}</p>
+            <h2 style="color: #808080">{{ house.price }} per annum</h2>
+            <p style="color: #808080">{{ house.house_type  }}</p>
+            <p style="color: #808080">{{ house.location  }}</p>
             <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
               <input type="file" name="file">
               <button type="submit"> submit </button>
