@@ -46,6 +46,17 @@ def house(house_id):
                 id=occ_house.tenant_id
                 )
 
+    if session.get("role") == "Tenant":
+        return render_template(
+        "tenant_house.html",
+        house=house,
+        tenant=tenant,
+        status=status,
+        agent=agent,
+        occ_house=occ_house,
+        path=path
+        )
+
     return render_template(
             "house.html",
             house=house,

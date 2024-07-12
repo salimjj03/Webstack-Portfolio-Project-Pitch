@@ -4,7 +4,7 @@
 
 from views import app_view
 from flask import Flask, render_template, make_response, request
-from flask import session, redirect, url_for, abort
+from flask import session, redirect, url_for, abort, jsonify
 from models import storage
 from models.utill import Utill
 from models.tenant import Tenant
@@ -15,7 +15,29 @@ def tenant():
     """
     """
 
-    return("Hellow tenant")
+    tenant = storage.find_obj_by_key(
+            "Tenant",
+            email=session.get("email")
+            )
+    
+    return render_template("tenant.html", user=tenant)
+
+@app_view.route("/tenant/available_house", strict_slashes=False)
+def available_house():
+    """
+    """
+
+    tenant = storage.find_obj_by_key(
+            "Tenant",
+            email=session.get("email")
+            )
+
+    houses = storage.find_many_by_key("House", occufied_id=None)
+    return render_template(
+            "available_house.html",
+            user=tenant,
+            houses=houses
+            )
 
 @app_view.route(
         "/add_tenant",

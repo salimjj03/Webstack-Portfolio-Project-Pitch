@@ -38,8 +38,7 @@
 	  <p class="role">Making Real Estate Simple</p>
 	  </div>
 	  <ul class="nav">
-	      <a href="/admin/add_house"><b>AddHouse</b></a>
-              <a href="/admin/add_agent"><b>AddAgent</b></a>
+	      <a href="/tenant"><b>Home</b></a>
               <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>
@@ -50,19 +49,15 @@
 	    <p class="role">{{ user.__class__.__name__  }}</p>
 	  </div>
 	    <ul class="nav">
-		    <a href="/admin"><h2 style="color: #808080"`>Dashboard</h2></a>
+		    <a href="/tenant"><h2 style="color: #808080"`>Dashboard</h2></a>
             </ul>
 	</section>
 	<div class="img">
-		<h1> Active rent</h1>
-	  {% if house  %}
-	  {% for house in user.un_occufied() %}
+		<h1> Availabel House for rent</h1>
+	  {% if houses  %}
+	  {% for house in houses %}
 	  <div class="image-box">
-		  {% if user.__class__.__name__ == "Tenant" %}
-		  <a href="/tenant_rent/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
-		  {% else %}
 		  <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
-    		  {% endif %}
 	    <h2 style="color: #808080">{{ house.price }} per annum</h2>
 	    <p style="color: #808080">{{ house.house_type  }}</p>
  	    <p style="color: #808080">{{ house.location  }}</p>
@@ -75,25 +70,7 @@
     	  {% endfor  %}
 	  {% endif  %}
 	</div>
-
 	<div class="img">
-                <h1> Previous rent</h1>
-	  {% if house %}
-          {% for house in user.occufied() %}
-           <div class="image-box">
-	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
-
-            <h2 style="color: #808080">{{ house.price }} per annum</h2>
-            <p style="color: #808080">{{ house.house_type  }}</p>
-            <p style="color: #808080">{{ house.location  }}</p>
-            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
-              <input type="file" name="file">
-              <button type="submit"> submit </button>
-            </form>
-
-          </div>
-          {% endfor  %}
-	  {% endif %}
         </div>
     </div>
     <footer>

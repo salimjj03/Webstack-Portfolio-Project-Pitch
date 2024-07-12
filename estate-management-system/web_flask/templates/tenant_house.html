@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  type="text/css" href="/sstatic/style/reset.css">
+    <link rel="stylesheet"  type="text/css" href="/static/style/admin_agent.css">
+    <title>Estate Ease</title>
+    <style>
+	a {
+              text-decoration: none;
+              color: black;
+         }
+
+	a:hover {
+	    border-left: solid 5px #22CE83;
+	    padding-left: 3px;
+            color: black;
+        }
+
+	.house_d {
+		display: flex;
+		justify-content: space-around;
+		gap: 2rem;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.h_status {
+		margin: 0px;
+	}
+
+	.image-box {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	    border: none;
+	    background-color: none;
+	}
+    </style>
+</head>
+<body>
+    <header>
+	  <div class="p">
+	  <p class="name"><b>Estate<span>Ease<span></b></p>
+	  <p class="role">Making Real Estate Simple</p>
+	  </div>
+	  <ul class="nav">
+	    <a href="{{ path }}"><b>Home</b></a>
+	  </ul>
+    </header>
+    <div class="container">
+	<section class="mini-nav">
+	  <div>
+	    <p class="name"><b>{{ house.house_type  }}</b></p>
+	    <p class="role">{{ house.location  }}</p>
+	  </div>
+	  
+	  {% if status == "Occupied"  %}
+	  <div>
+	  <h2 class="h_status" style="color: #22CE83">{{ status  }}</h2>
+	  <h3 class="h_status">expire on {{ occ_house.expire_date }}</h3>
+	  </div>
+	  {% endif  %}
+
+	  {% if status == "Un occupied"  %}
+	  <h2 style="color: red">{{ status  }}</h2>
+	  {% endif  %}
+	</section>
+	<div class="img">
+	  <div class="image-box">
+	    <img src="../static/uploads/{{ house.id }}.jpg" alt="House Image">
+	    <a href="/reserve_house"><div class="reserve">Make reservation</div></a>
+	  </div>
+	</div>
+	<div>
+	 <div class="house_d">
+	  <div>
+	    <h2>Quick Summary</h2>
+	    <p><b>House id:</b> {{ house.id }}</p>
+            <p><b>house type:</b> {{ house.house_type }}</p>
+            <p><b>location:</b> {{ house.location }}</p>
+            <p><b>Price:</b> {{ house.price }} per annum</p>
+            <p><b>Agent:</b> {{ agent.full_name }}</p>
+	    {% if tenant  %}
+            <p><b>Occupied id:</b> {{ occ_house.id }}</p>
+            <p><b>Tenan:</b> {{ tenant.full_name }}</p>
+            <p><b>Start date:</b> {{ occ_house.created_at }}</p>
+            <p><b>Expiry date:</b> {{ occ_house.expire_date }}</p>
+	    {% endif  %}
+	  </div>
+	  <div>
+	  <div>
+	    <h2>Contact Agent</h2>
+	    <p><b>Name:</b> {{ agent.full_name }}</p>
+	    <p><b>Phon No:</b> {{ agent.phone_no }}</p>
+	    <p><b>Email:</b> {{ agent.email }}</p>
+	  </div>
+	  {% if tenant  %}
+	  <div>
+		  <h2>Contact Tenant</h2>
+                  <p>Name: {{ tenant.full_name }}</p>
+                  <p>Phon No: {{ tenant.phone_no }}</p>
+                  <p>Email: {{ tenant.email }}</p>
+	  </div>
+	  {% endif %}
+	 </div>
+	 </div>
+	</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 EstateEase. All rights reserved.</p>
+    </footer>
+</body>
+</html>

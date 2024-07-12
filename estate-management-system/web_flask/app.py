@@ -10,7 +10,7 @@ import os
 
 app = Flask(__name__)
 app.register_blueprint(app_view)
-app.secret_key = "Feeya"
+app.secret_key = "*****"
 app.config['UPLOAD_FOLDER'] = 'web_flask/static/uploads/'
 
 # Ensure the upload folder exists
@@ -28,19 +28,14 @@ def upload_file(filenamee):
     if file:
         filename = "{}.jpg".format(filenamee)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('uploaded_file', filename=filename))
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return f'File successfully uploaded: {filename}'
-
+        return redirect(url_for('app_view.admin'))
 
 @app.before_request
 def befor_request():
     """
     """
 
-    path = ["/admin", "/tenant", "/agent"]
+    path = ["/admin", "/tenant", "/agent", "/house"]
     for url in path:
         if request.path.startswith(url) and session.get(
                 "email"
