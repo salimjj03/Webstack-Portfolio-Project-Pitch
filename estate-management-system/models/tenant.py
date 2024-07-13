@@ -35,14 +35,64 @@ class Tenant(User, base_db):
         if house is None:
             print("invalid house id")
             return False
+
         if house.occufied_id is not None:
             print("House is currently occupied")
             return(False)
+
+        quary = {
+                "payment_status": 0,
+                "tenant_id": self.id,
+                "occufied_status": 1
+                }
+        pending_reserve = storage.find_obj_by_key(
+                "Occufied_house",
+                **quary
+                )
+
+        if pending_reserve:
+            return False
+
         reserve = Occufied_house(**dic)
         reserve.save()
         house.update(occufied_id=reserve.id)
         print("House reserve successifull")
-        return True
+        return reserve
+
+    def active_rent(self):
+        """
+        """
+        
+        from models import storage
+
+        
+        dic = {"occufied_status": 1, "tenant_id": self.id}
+        active_r = storage.find_many_by_key(
+                "Occufied_house",
+                **dic
+                )
+
+        return active_r
+
+    def previous_rent(self):
+        """
+        """
+
+        from models import storage
+
+        dic = {
+                "occufied_status": 0,
+                "tenant_id": self.id,
+                "payment_status": 1
+                }
+
+        prev_rent = storage.find_many_by_key(
+                "Occufied_house",
+                **dic
+                )
+
+        return prev_rent
+
 
     def roll_over(self, occupied_id):
         """
@@ -82,9 +132,8 @@ class Tenant(User, base_db):
                 )
 
         re_occupied = Occufied_house(**dic)
+        #re_occupied.created_at = house.expire_date
         re_occupied.save()
-        occupied_house.update(occufied_status=0)
-        house.update(occufied_id=re_occupied.id)
         print("roll over successifull")
         return(True)
 
@@ -98,11 +147,10 @@ class Tenant(User, base_db):
         if house and house.tenant_id == self.id:
             if house.payment_status == 0 and house.occufied_status == 1:
                 occupied_house = storage.find_obj_by_key(House, id=house.house_id)
-                occupied_house.update(occufied_id=None)
                 house.update(occufied_status=0)
+                if house.id == occupied_house.occufied_id:
+                    occupied_house.update(occufied_id=None)
                 print("reservation cancel")
                 return True
-            print("This reservation can not be cancel")
-            return False
-        print("invalid occufied_id")
-        return False
+            return ("This reservation can not be cancel")
+        return("invalid occufied_id")

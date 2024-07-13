@@ -38,8 +38,7 @@
 	  <p class="role">Making Real Estate Simple</p>
 	  </div>
 	  <ul class="nav">
-	      <a href="/admin/add_house"><b>AddHouse</b></a>
-              <a href="/admin/add_agent"><b>AddAgent</b></a>
+	      <a href="/tenant/available_house"><b>Availabe house</b></a>
               <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>
@@ -55,22 +54,12 @@
 	</section>
 	<div class="img">
 		<h1> Active rent</h1>
-	  {% if house  %}
-	  {% for house in user.un_occufied() %}
+	  {% if houses  %}
+	  {% for house in user.active_rent() %}
 	  <div class="image-box">
-		  {% if user.__class__.__name__ == "Tenant" %}
-		  <a href="/tenant_rent/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
-		  {% else %}
-		  <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
-    		  {% endif %}
-	    <h2 style="color: #808080">{{ house.price }} per annum</h2>
-	    <p style="color: #808080">{{ house.house_type  }}</p>
+		  <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.house_id }}.jpg" alt="House Image"></a>
+	    <p style="color: #808080">{{ house.id  }}</p>
  	    <p style="color: #808080">{{ house.location  }}</p>
-            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
-	      <input type="file" name="file">
-              <button type="submit"> submit </button>
-            </form>
-
 	  </div>
     	  {% endfor  %}
 	  {% endif  %}
@@ -78,19 +67,14 @@
 
 	<div class="img">
                 <h1> Previous rent</h1>
-	  {% if house %}
-          {% for house in user.occufied() %}
+	  {% if user %}
+          {% for house in user.previous_rent() %}
            <div class="image-box">
-	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
+	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.house_id }}.jpg" alt="House Image"></a>
 
             <h2 style="color: #808080">{{ house.price }} per annum</h2>
-            <p style="color: #808080">{{ house.house_type  }}</p>
+            <p style="color: #808080">{{ house.id  }}</p>
             <p style="color: #808080">{{ house.location  }}</p>
-            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
-              <input type="file" name="file">
-              <button type="submit"> submit </button>
-            </form>
-
           </div>
           {% endfor  %}
 	  {% endif %}

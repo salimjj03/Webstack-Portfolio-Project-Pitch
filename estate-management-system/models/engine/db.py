@@ -31,7 +31,7 @@ class Db():
         """
 
         Db.__engine = create_engine(
-            "mysql+mysqldb://salem:root@localhost/estate", echo=True
+            "mysql+mysqldb://salem:root@localhost/estate", echo=False
             )
 
         base_db.metadata.create_all(Db.__engine)
@@ -73,30 +73,63 @@ class Db():
         """
 
         cls = self.is_valid_cls(cls)
-        if cls:
+        if cls is False:
+            return None
+
+        if len(kwarg) >= 2:
+            filters = []
+
+            for key, value in kwarg.items():
+                filters.append(getattr(cls, key) == value)
+
+            result = self.__session.query(cls).filter(
+                    *filters
+                    ).first()
+        elif len(kwarg) == 1:
+
             key = next(iter(kwarg))
             value = kwarg.get(key)
             result = self.__session.query(
                     cls
                     ).filter(getattr(cls, key) == value).first()
-            return result
-        return None
+
+        else:
+            ressult = []
+
+        return result
 
     def find_many_by_key(self, cls, **kwarg):
         """
         this method return cls obj base on the key value
         if it exist else error
         """
-
+        
+        
         cls = self.is_valid_cls(cls)
-        if cls:
+        if cls is False:
+            return None
+
+        if len(kwarg) >= 2:
+            filters = []
+
+            for key, value in kwarg.items():
+                filters.append(getattr(cls, key) == value)
+
+            result = self.__session.query(cls).filter(
+                    *filters
+                    ).all()
+        elif len(kwarg) == 1:
+
             key = next(iter(kwarg))
             value = kwarg.get(key)
             result = self.__session.query(
                     cls
                     ).filter(getattr(cls, key) == value).all()
-            return result
-        return None
+
+        else:
+            ressult = []
+
+        return result
 
     def occufied(self, agent_id=None):
         """
@@ -190,6 +223,7 @@ class Db():
                     )
                 )
         self.__session = Session
+
 
     def close(self):
         """

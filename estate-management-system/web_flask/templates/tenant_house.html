@@ -30,10 +30,32 @@
 	}
 
 	.image-box {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 	    border: none;
 	    background-color: none;
 	}
+
+	.img {
+		display: flex;
+                justify-content: center;
+                align-items: center;
+	}
+
+	.reserve {
+        color: white;
+        background-color: #22CE83;
+        width: 80%;
+        height: 40px;
+        border-radius: 5px;
+        text-align: center;
+        padding-top: 10px;
+        margin-top: 10px;
+	}
+
     </style>
 </head>
 <body>
@@ -66,8 +88,17 @@
 	</section>
 	<div class="img">
 	  <div class="image-box">
+	    <p class="res">{{ res }}</p>
 	    <img src="../static/uploads/{{ house.id }}.jpg" alt="House Image">
-	    <a href="/reserve_house"><div class="reserve">Make reservation</div></a>
+	    {% if house.occufied_id == None %}
+	    <a class="reserve" href="/tenant/reserve_house/{{ house.id }}"><div>Reserve</div></a>
+	    {% elif occ_house.payment_status == 0 %}
+	    <a class="reserve" style="background-color: red" href="/tenant/cancel_reservation/{{ occ_house.id }}"><div>Cancel reservation</div></a>
+
+	    {% elif occ_house.occufied_status == 1 and occ_house.payment_status == 1 %}
+	    <a class="reserve" href="/tenant/roll_over/{{ house.occufied_id }}"><div>Roll over</div></a>
+	    {% endif %}
+ 
 	  </div>
 	</div>
 	<div>

@@ -30,10 +30,32 @@
 	}
 
 	.image-box {
+		display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	    border: none;
-	    background-color: none;
+            border: none;
+            background-color: none;
 	}
+
+	.img {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+        }
+
+        .reserve {
+        color: white;
+        background-color: #22CE83;
+        width: 80%;
+        height: 40px;
+        border-radius: 5px;
+        text-align: center;
+        padding-top: 10px;
+        margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -67,6 +89,13 @@
 	<div class="img">
 	  <div class="image-box">
 	    <img src="../static/uploads/{{ house.id }}.jpg" alt="House Image">
+	    {% if path == "/agent" %}
+	      {% if occ_house and occ_house.payment_status == 0%}
+	      <a class="reserve" href="/agent/approve_payment/{{ house.occufied_id }}"><div>Approve payment</div></a>
+	      {% elif occ_house and occ_house.payment_status == 1%}
+	      <a style="background-color: red" class="reserve" href="/agent/cancel_payment/{{ house.occufied_id }}"><div>Cancel payment</div></a>
+	      {% endif%}
+	    {% endif %}
 	  </div>
 	</div>
 	<div>

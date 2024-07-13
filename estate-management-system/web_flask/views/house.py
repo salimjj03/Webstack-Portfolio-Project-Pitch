@@ -12,15 +12,13 @@ from flask import session
 def house(house_id):
     """
     """
-
-    house = storage.find_obj_by_key("House", id=house_id)
-    if house is None:
-        return "None"
-
+    
     agent = None
     tenant = None
     occ_house = None
     status = "Un occupied"
+
+
     path = session.get("role")
 
     if path == "Admin":
@@ -30,20 +28,32 @@ def house(house_id):
     elif path == "Agent":
         path = "/agent"
 
+
+    house = storage.find_obj_by_key("House", id=house_id)
+    if house is None:
+        occ_house = storage.find_obj_by_key("Occufied_house", id=house_id)
+        if occ_house is None:
+            return "None"
+        else:
+            house = storage.find_obj_by_key("House", id=occ_house.house_id)
+
+    else:
+        if house.occufied_id is not None:
+            occ_house = storage.find_obj_by_key(
+                    "Occufied_house",
+                    id=house.occufied_id
+                    )
+
+    if occ_house is not None:
+        tenant = storage.find_obj_by_key(
+            "Tenant",
+            id=occ_house.tenant_id
+            )
+        status = "Occupied"
+
     agent = storage.find_obj_by_key(
                 "Agent",
                 id=house.agent_id
-                )
-    if house.occufied_id is not None:
-        occ_house = storage.find_obj_by_key(
-                "Occufied_house",
-                id=house.occufied_id
-                )
-        status = "Occupied"
-
-        tenant = storage.find_obj_by_key(
-                "Tenant",
-                id=occ_house.tenant_id
                 )
 
     if session.get("role") == "Tenant":

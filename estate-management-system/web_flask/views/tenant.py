@@ -19,8 +19,10 @@ def tenant():
             "Tenant",
             email=session.get("email")
             )
-    
-    return render_template("tenant.html", user=tenant)
+
+    active_ren = tenant.active_rent()
+
+    return render_template("tenant.html", user=tenant, houses=active_ren)
 
 @app_view.route("/tenant/available_house", strict_slashes=False)
 def available_house():
@@ -38,6 +40,64 @@ def available_house():
             user=tenant,
             houses=houses
             )
+
+@app_view.route(
+        "/tenant/reserve_house/<house_id>",
+        strict_slashes=False
+        )
+def reserve_house(house_id):
+    """
+    """
+
+    tenant = storage.find_obj_by_key(
+            "Tenant",
+            email=session.get("email")
+            )
+
+    occ_house = tenant.reserve_house(house_id)
+    if occ_house is False:
+        return ("Sorry, you cannot make another reservation.You have pending payment. Please make the payment soyou can reserve more. Thank you")
+    
+    occ_house.save()
+    return redirect(url_for("app_view.house", house_id=house_id))
+
+@app_view.route(
+        "/tenant/cancel_reservation/<occupied_id>",
+        strict_slashes=False
+        )
+def cancel_reservation(occupied_id):
+    """
+    """
+
+    tenant = storage.find_obj_by_key(
+            "Tenant",
+            email=session.get("email")
+            )
+
+    status = tenant.cancel_reservation(occupied_id)
+    if status == True:
+        return redirect(url_for("app_view.tenant"))
+    return status
+
+
+@app_view.route(
+        "/tenant/roll_over/<occupied_id>",
+        strict_slashes=False
+        )
+def roll_over(occupied_id):
+    """
+    """
+
+    tenant = storage.find_obj_by_key(
+            "Tenant",
+            email=session.get("email")
+            )
+
+    roll = tenant.roll_over(occupied_id)
+    if roll:
+        return redirect(url_for("app_view.tenant"))
+    return "Failed"
+
 
 @app_view.route(
         "/add_tenant",
