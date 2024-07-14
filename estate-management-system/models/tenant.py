@@ -106,15 +106,27 @@ class Tenant(User, base_db):
                 )
         if occupied_house == None:
             print("invalid occupied_id")
-            return False
+            return("invalid occupied_id")
 
         if occupied_house.tenant_id != self.id:
             print("house is not occupied by the current tenant")
-            return False
+            return("house is not occupied by the current tenant")
 
         if occupied_house.occufied_status != 1:
             print("this occufied house is not active")
-            return False
+            return("this occufied house is not active")
+
+
+        roll_over_status = storage.find_many_by_key(
+                "Occufied_house",
+                tenant_id=self.id,
+                house_id=occupied_house.house_id,
+                occufied_status=1
+                )
+        if len(roll_over_status) > 1:
+            print("you have pending roll over")
+            return("you have pending roll over")
+
 
         expire_date = occupied_house.expire_date + timedelta(days=360)
 

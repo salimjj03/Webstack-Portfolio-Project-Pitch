@@ -94,9 +94,9 @@ def roll_over(occupied_id):
             )
 
     roll = tenant.roll_over(occupied_id)
-    if roll:
+    if roll is True:
         return redirect(url_for("app_view.tenant"))
-    return "Failed"
+    return roll
 
 
 @app_view.route(
