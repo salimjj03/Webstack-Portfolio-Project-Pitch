@@ -95,3 +95,69 @@ def add_house():
                 agents=agents,
                 s_status="House Added successfully"
                 )
+
+@app_view.route(
+        "/admin/list_agent",
+        strict_slashes=False,
+        methods=["GET", "POST"]
+        )
+def list_agent():
+    """
+    """
+
+    if request.method == "GET":
+        agents = storage.all("Agent")
+        user = storage.find_obj_by_key(
+                "Admin",
+                email=session["email"]
+                )
+
+        return render_template(
+                "list_agent.html",
+                agents=agents,
+                user=user
+                )
+
+@app_view.route(
+        "/admin/update/<id>",
+        strict_slashes=False,
+        methods=["PUT"]
+        )
+def update(id):
+    """
+    """
+
+    if request.method == "PUT":
+        update_key = request.get_json()
+        if update_key is None:
+            return ("Empty request")
+        for cls in ["Admin", "Agent", "Tenant", "House"]:
+            obj = storage.find_obj_by_key(
+                    cls,
+                    id=id
+                    )
+            if obj is not None:
+                response = obj.update(**update_key)
+                return "Update successufully" if response is True else response
+        return("Invalid class or id")
+
+
+@app_view.route(
+        "/admin/delete/<id>",
+        strict_slashes=False,
+        methods=["DELETE"]
+        )
+def delete(id):
+    """
+    """
+
+    if request.method == "DELETE":
+        update_key = request.get_json()
+        if update_key is None:
+            return ("Empty request")
+        for cls in ["Admin", "Agent", "Tenant", "House", "Occufied_house"]:
+            response = storage.delete(cls, id)
+            if response is True:
+                return "Deleted successufully"
+        return("Invalid id")
+

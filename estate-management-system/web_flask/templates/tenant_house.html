@@ -112,6 +112,7 @@
             <p><b>Agent:</b> {{ agent.full_name }}</p>
 	    {% if tenant  %}
             <p><b>Occupied id:</b> {{ occ_house.id }}</p>
+	    <p><b>Peyment Status: </b>{{ "Paid" if occ_house.payment_status == 1 else "Not Paid"  }}</p>
             <p><b>Tenan:</b> {{ tenant.full_name }}</p>
             <p><b>Start date:</b> {{ occ_house.created_at }}</p>
             <p><b>Expiry date:</b> {{ occ_house.expire_date }}</p>

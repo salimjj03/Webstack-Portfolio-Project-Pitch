@@ -198,7 +198,7 @@ class Db():
             print("record updated successifully")
             return True
         print("obj not found")
-        return False
+        return("obj not found")
 
     def delete(self, cls, id):
         """
@@ -212,7 +212,7 @@ class Db():
             print("obj deleted successufully")
             return True
         print ("obj not found")
-        return False
+        return ("obj not found")
 
     def session(self):
 

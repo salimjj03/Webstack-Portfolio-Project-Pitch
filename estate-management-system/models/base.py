@@ -76,4 +76,4 @@ class Base:
         from models import storage
 
         cls = self.__class__.__name__
-        storage.update(cls, self.id, **kwarg)
+        return storage.update(cls, self.id, **kwarg)

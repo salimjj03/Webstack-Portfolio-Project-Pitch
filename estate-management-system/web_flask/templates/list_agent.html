@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet"  type="text/css" href="/sstatic/style/reset.css">
+    <link rel="stylesheet"  type="text/css" href="/static/style/admin_agent.css">
+    <link rel="stylesheet"  type="text/css" href="/static/style/dropdown.css">
+    <title>Estate Ease</title>
+    <style>
+	a {
+              text-decoration: none;
+              color: black;
+         }
+
+	a:hover {
+	    border-left: solid 5px #22CE83;
+	    padding-left: 3px;
+            color: black;
+        }
+
+	.image-box {
+            border: none;
+            background-color: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+	img {
+		background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	}
+
+    </style>
+</head>
+<body>
+    <header>
+	  <div class="p">
+	  <p class="name"><b>Estate<span>Ease<span></b></p>
+	  <p class="role">Making Real Estate Simple</p>
+	  </div>
+	  <ul class="nav">
+	      <div class="dropdown">
+        	 	<button class="dropbtn">Agent / House</button>
+        		<div class="dropdown-content">
+            			<a href="/admin/add_house">add house</a>
+            			<a href="/admin/list_house">List House</a>
+            			<a href="/admin/add_agent">Add Agent</a>
+            			<a href="/admin/list_agent">List Agent</a>
+        		</div>
+    		</div>
+              <a href="/admin/add_agent"><b>list Tenant</b></a>
+              <a href="/logout"><b>Logout</b></a>
+	  </ul>
+    </header>
+    <div class="container">
+	<section class="mini-nav">
+	  <div>
+	    <p class="name"><b>{{ user.full_name  }}</b></p>
+	    <p class="role">{{ user.__class__.__name__  }}</p>
+	  </div>
+	    <ul class="nav">
+		    <a href="/admin"><h2 style="color: #808080"`>Dashboard</h2></a>
+            </ul>
+	</section>
+	<div class="img">
+	  <h1> List of Agent ({{ agents | length}})</h1>
+	  <table border="1">
+	   <tr>
+	     <td><b> Full Name</b> </td>
+	     <td><b> User Name </b></td>
+	     <td><b>role</b></td>
+	     <td><b>Total transactions</b></td>
+	     <td><b> Total profit</b></td>
+	   </tr>
+	  {% for v in agents  %}
+	  <tr>
+	    <td> {{ v.full_name  }} </td>
+	    <td> {{ v.user_name  }} </td>
+	    <td> {{ v.role  }}  </td>
+	    <td>{{ v.role }} </td>
+	    <td> {{ v.email }}  </td>
+	    <td border="0">
+	      <div id="{{ v.id  }}" style="display: none">
+		      <form id="{{ v.id  }}">
+			      fullname<input type='radio' id='fullname' value='full_name' name='update'><br>
+			      phone No<input type='radio' id='phone_number' value='phone_number' name='update'><br>
+			      role<input type='radio' id='rolel' value='role' name='update'><br>
+			      password<input type='radio' id='password' value='password' name='update'><br>
+		      </form>
+	      </div>
+	      <button class="user_update" value="{{ v.id  }}" style="background-color: green">update</button>
+	    </td>
+	    <td>
+	      <button class="user_delete" value="{{ v.id  }}" style='background-color: red'>delete</button>
+	    </td>
+	  </tr>
+  	  {% endfor  %}
+	  </table>
+	  <p id="test"></p>
+	</div>
+    </div>
+    <footer>
+        <p>&copy; 2024 EstateEase. All rights reserved.</p>
+    </footer>
+
+<script>
+  $(function(){
+    $(".user_update").on("click", function(){
+       var value = $("INPUT[name='update']:checked").val()
+       if (value) {
+          var name = prompt("update " + value)
+	  if (!name) {
+            return
+	  }
+        if (value === "full_name") {
+          dic = JSON.stringify({full_name: name})
+        } else if (value === "phone_number") {
+          dic = JSON.stringify({phone_number: name});
+        } else if (value == "role") {
+          dic = JSON.stringify({role: name})
+        } else if (value === "password") {
+          dic = JSON.stringify({password: name})
+        }
+        $.ajax({
+			url: "/admin/update/" + $(this).val(),
+          data: dic,
+          contentType: "application/json",
+          method: "PUT",
+          success: function(res) {
+	   alert(res)
+	   location.reload()
+          },
+	error: function(xhr, status, error) {
+	  alert(error)
+	  location.reload()
+	}
+	})
+	}
+	var t = $(this).val();
+	$("#" + t).fadeIn()
+	$("#test").val(t)
+      })
+    $(".user_delete").on("click", function(){
+      var id = $(this).val();
+      dic = JSON.stringify({id: id})
+      result = confirm("Are you sure you want to delele user?")
+      if (!result) {
+	return
+      }
+      $.ajax({
+	url: "/admin/delete/" + id,
+	data: dic,
+	method: "DELETE",
+	contentType: "application/json",
+	success: function(res) {
+	  alert(res)
+	  location.reload()
+        },
+        error: function(xhr, status, error) {
+          alert(error)
+          location.reload()
+        }
+      })
+  })
+     $("#test").text()
+})
+</script>
+</body>
+</html>

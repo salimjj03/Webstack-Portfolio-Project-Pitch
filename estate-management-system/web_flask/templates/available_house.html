@@ -29,6 +29,12 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 	}
 
+	.nill {
+                background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            height: 50px;
+        }
+
     </style>
 </head>
 <body>
@@ -58,16 +64,13 @@
 	  {% for house in houses %}
 	  <div class="image-box">
 		  <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
-	    <h2 style="color: #808080">{{ house.price }} per annum</h2>
-	    <p style="color: #808080">{{ house.house_type  }}</p>
- 	    <p style="color: #808080">{{ house.location  }}</p>
-            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
-	      <input type="file" name="file">
-              <button type="submit"> submit </button>
-            </form>
-
+		  <h2 style="color: #808080"><b>Price: </b>{{ house.price }} per annum</h2>
+	    <p style="color: #808080"><b>House type: </b>{{ house.house_type  }}</p>
+ 	    <p style="color: #808080"><b>Location: </b>{{ house.location  }}</p>
 	  </div>
     	  {% endfor  %}
+	  {% else %}
+          <p class="nill" style="color: #808080">Currently no Available House</p>
 	  {% endif  %}
 	</div>
 	<div class="img">

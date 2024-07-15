@@ -35,12 +35,23 @@ def befor_request():
     """
     """
 
-    path = ["/admin", "/tenant", "/agent", "/house"]
-    for url in path:
+    paths = ["/admin", "/tenant", "/agent", "/house"]
+    for url in paths:
         if request.path.startswith(url) and session.get(
                 "email"
                 ) is None:
             return redirect(url_for("app_view.login"))
+        if url == "/admin":
+            role = "Admin"
+        elif url == "/agent":
+            role = "Agent"
+        elif url == "/tenant":
+            role = "Tenant"
+
+        if url in ["/admin", "/tenant", "/agent"]:
+            if request.path.startswith(url) and role != session.get("role"):
+                return redirect(url_for("app_view.login"))
+
 
 @app.errorhandler(404)
 def _404(error):
