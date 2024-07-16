@@ -33,6 +33,18 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 	}
 
+	.list_container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: auto;
+	}
+
+	.list_container > * {
+		flex: 1;
+	}
+
     </style>
 </head>
 <body>
@@ -67,29 +79,34 @@
             </ul>
 	</section>
 	<div class="list_container">
-	  <h1> List of Agent ({{ agents | length}})</h1>
-	  <input type="text" id="searchBox" placeholder="Search for agents...">
+	  <h1> List of house ({{ houses | length}})</h1>
+	  <input type="text" id="searchBox" placeholder="Search for house...">
 	  <table class="styled-table">
 	   <thead>
 	   <tr>
-	     <th><b> Full Name</b></th>
-	     <th><b>Phone no</b></th>
-	     <th><b>email</b></th>
+	     <th><b>House id</b></th>
+	     <th><b>agent id</b></th>
+	     <th><b>Type</b></th>
+	     <th><b>Location</b></th>
+	     <th><b>Price</b></th>
 	     <th><b>Action</b></th>
 	   </tr>
 	   </thead>
 	   <tbody id="agentTableBody">
-	  {% for v in agents  %}
+	  {% for v in houses  %}
 	  <tr>
-	    <td> {{ v.full_name }} </td>
-	    <td> {{ v.phone_no }} </td>
-	    <td> {{ v.email  }}  </td>
+	    <td> {{ v.id }} </td>
+	    <td> {{ v.agent_id }} </td>
+	    <td> {{ v.house_type }} </td>
+	    <td> {{ v.location }} </td>
+	    <td> {{ v.price  }}  </td>
 	    <td>
   	      <div class="form-container" id="{{ v.id  }}" style="display: none">
                 <form id="{{ v.id  }}">
-                    fullname<input type='radio' id='fullname' value='full_name' name='update'><br>
-                    phone No<input type='radio' id='phone_number' value='phone_no' name='update'><br>
-                    password<input type='radio' id='password' value='password' name='update'><br>
+                    agent_id<input type='radio' id='agent_id' value='agent_id' name='update'><br>
+                    Type<input type='radio' id='fullname' value='house_type' name='update'><br>
+                    Location<input type='radio' id='phone_number' value='location' name='update'><br>
+                    Price<input type='radio' id='password' value='price' name='update'><br>
                 </form>
               </div>
 	      <button class="action-button" value="{{ v.id  }}">Edit</button>
@@ -114,11 +131,13 @@
     $('#searchBox').on('keyup', function() {
        const searchQuery = $(this).val().toLowerCase();
        $('#agentTableBody tr').each(function() {
-          const fullName = $(this).find('td').eq(0).text().toLowerCase();
-          const phoneNo = $(this).find('td').eq(1).text().toLowerCase();
-          const email = $(this).find('td').eq(2).text().toLowerCase();
+          const id = $(this).find('td').eq(0).text().toLowerCase();
+          const agent_id = $(this).find('td').eq(1).text().toLowerCase();
+          const fullName = $(this).find('td').eq(2).text().toLowerCase();
+          const phoneNo = $(this).find('td').eq(3).text().toLowerCase();
+          const email = $(this).find('td').eq(4).text().toLowerCase();
 
-          if (fullName.includes(searchQuery) || phoneNo.includes(searchQuery) || email.includes(searchQuery)) {
+          if (fullName.includes(searchQuery) || phoneNo.includes(searchQuery) || id.includes(searchQuery) || agent_id.includes(searchQuery) || email.includes(searchQuery)) {
               $(this).show();
           } else {
               $(this).hide();
@@ -133,12 +152,14 @@
 	  if (!name) {
             return
 	  }
-        if (value === "full_name") {
-          dic = JSON.stringify({full_name: name})
-        } else if (value === "phone_no") {
-          dic = JSON.stringify({phone_no: name});
-        } else if (value === "password") {
-          dic = JSON.stringify({password: name})
+        if (value === "house_type") {
+          dic = JSON.stringify({house_type: name})
+        } else if (value === "agent_id") {
+          dic = JSON.stringify({agent_id: name});
+        } else if (value === "location") {
+          dic = JSON.stringify({location: name});
+        } else if (value === "price") {
+          dic = JSON.stringify({price: name})
         }
         $.ajax({
 			url: "/admin/update/" + $(this).val(),

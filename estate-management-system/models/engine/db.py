@@ -179,6 +179,25 @@ class Db():
 
         self.__session.add(obj)
         self.__session.commit()
+    
+
+    def update_obj(self, obj, **kwarg):
+        """
+        """
+
+        if obj:
+            for key, value in kwarg.items():
+                if key in obj.to_dict():
+                    setattr(obj, key, value)
+                    obj.updated_at = datetime.utcnow()
+                    print("{} updated successifully".format(key))
+                else:
+                    print("invalid key {}".format(key))
+            self.__session.commit()
+            print("record updated successifully")
+            return True
+        return False
+
 
     def update(self, cls, id, **kwarg):
         """
@@ -199,6 +218,17 @@ class Db():
             return True
         print("obj not found")
         return("obj not found")
+    
+
+    def delete_obj(self, obj):
+        """
+        """
+
+        self.__session.merge(obj)
+        self.__session.delete(obj)
+        self.__session.commit()
+        print("obj deleted successufully")
+        return True
 
     def delete(self, cls, id):
         """
@@ -232,3 +262,54 @@ class Db():
 
         if self.__session != None:
             self.__session.remove()
+
+
+    def expire_rent(self):
+        """
+        """
+
+        now = datetime.now()
+
+        expire_rents = self.__session.query(Occufied_house).filter(
+                Occufied_house.expire_date < now,
+                Occufied_house.payment_status == 1,
+                Occufied_house.occufied_status == 1
+                ).all()
+
+        for expire in expire_rents:
+            house = self.find_obj_by_key(
+                    House,
+                    id=expire.house_id
+                    )
+            print("expired_rent: {}".format(house.id))
+            house.occufied_id = None
+            expire.occufied_status = 0
+            house.updated_at = now
+            expire.updated_at = now
+        self.__session.commit()
+        print("checking expired rent")
+
+
+    def expire_reservation(self):
+        """
+        """
+
+        now = datetime.now()
+
+        expire_rents = self.__session.query(Occufied_house).filter(
+                Occufied_house.expire_date < now,
+                Occufied_house.payment_status == 0
+                ).all()
+
+        for expire in expire_rents:
+            house = self.find_obj_by_key(
+                    House,
+                    id=expire.house_id
+                    )
+            house.occufied_id = None
+            print("expired_reservation: {}".format(house.id))
+            self.__session.delete(expire)
+            house.updated_at = now
+        self.__session.commit()
+        print("checking expired reservation")
+

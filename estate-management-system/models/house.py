@@ -14,13 +14,13 @@ class House(Base, base_db):
 
     agent_id = Column(
             String(45),
-            ForeignKey("agents.id", ondelete="CASCADE")
+            ForeignKey("agents.id", ondelete="SET NULL")
             )
     occufied_id = Column(
             String(45),
-            ForeignKey("occufied_houses.id", ondelete="CASCADE")
+            ForeignKey("occufied_houses.id", ondelete="SET NULL")
             )
-    price = Column(String(45), default="0.00", nullable=False)
-    location = Column(String(60), default="jigawa", nullable=False)
-    house_type = Column(String(60), default="2 bed-room", nullable=False)
+    price = Column(String(45), nullable=False)
+    location = Column(String(60), nullable=False)
+    house_type = Column(String(60), nullable=False)
     discription = Column(String(60))

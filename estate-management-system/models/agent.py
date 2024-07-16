@@ -4,6 +4,7 @@
 
 from models.user import User
 from models.base import base_db
+from datetime import datetime, timedelta
 
 
 class Agent(User, base_db):
@@ -56,8 +57,11 @@ class Agent(User, base_db):
         if house.agent_id != self.id:
             return "Agent is not the owner of House"
 
+        expire_date = datetime.now() + timedelta(minutes=1)
         if occ_house.occufied_status == 1:
-            occ_house.update(payment_status=1)
+            occ_house.update(
+                    payment_status=1,
+                    expire_date=expire_date)
             return True
         return "House is not occupied"
 
@@ -84,8 +88,12 @@ class Agent(User, base_db):
         if house.agent_id != self.id:
             return "Agent is not the owner of House"
 
+        expire_date = datetime.now() + timedelta(minutes=1)
         if occ_house.occufied_status == 1:
-            occ_house.update(payment_status=0)
+            occ_house.update(
+                    payment_status=0,
+                    expire_date=expire_date
+                    )
             return True
         return "House is not occupied"
 

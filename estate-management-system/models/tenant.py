@@ -22,7 +22,7 @@ class Tenant(User, base_db):
 
         from models import storage
 
-        expire_date = datetime.now() + timedelta(days=7)
+        expire_date = datetime.now() + timedelta(days=1)
         dic = {
                 "house_id": house_id,
                 "tenant_id": self.id,
@@ -128,7 +128,7 @@ class Tenant(User, base_db):
             return("you have pending roll over")
 
 
-        expire_date = occupied_house.expire_date + timedelta(days=360)
+        expire_date = occupied_house.expire_date
 
         dic = {
                 "house_id": occupied_house.house_id,
@@ -146,6 +146,7 @@ class Tenant(User, base_db):
         re_occupied = Occufied_house(**dic)
         #re_occupied.created_at = house.expire_date
         re_occupied.save()
+        house.update(occufied_id=re_occupied.id)
         print("roll over successifull")
         return(True)
 
@@ -159,9 +160,16 @@ class Tenant(User, base_db):
         if house and house.tenant_id == self.id:
             if house.payment_status == 0 and house.occufied_status == 1:
                 occupied_house = storage.find_obj_by_key(House, id=house.house_id)
-                house.update(occufied_status=0)
                 if house.id == occupied_house.occufied_id:
                     occupied_house.update(occufied_id=None)
+                    house.delete()
+                    previous_rent = storage.find_obj_by_key(
+                            Occufied_house,
+                            house_id=occupied_house.id,
+                            occufied_status=1
+                            )
+                    if previous_rent is not None:
+                        occupied_house.update(occufied_id=previous_rent.id)
                 print("reservation cancel")
                 return True
             return ("This reservation can not be cancel")

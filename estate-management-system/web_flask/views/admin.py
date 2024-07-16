@@ -118,6 +118,52 @@ def list_agent():
                 user=user
                 )
 
+
+@app_view.route(
+        "/admin/list_tenant",
+        strict_slashes=False,
+        methods=["GET", "POST"]
+        )
+def list_tenant():
+    """
+    """
+
+    if request.method == "GET":
+        tenants = storage.all("Tenant")
+        user = storage.find_obj_by_key(
+                "Admin",
+                email=session["email"]
+                )
+
+        return render_template(
+                "list_tenant.html",
+                tenant=tenants,
+                user=user
+                )
+
+
+@app_view.route(
+        "/admin/list_house",
+        strict_slashes=False,
+        methods=["GET", "POST"]
+        )
+def list_house():
+    """
+    """
+
+    if request.method == "GET":
+        houses = storage.all("House")
+        user = storage.find_obj_by_key(
+                "Admin",
+                email=session["email"]
+                )
+
+        return render_template(
+                "list_house.html",
+                houses=houses,
+                user=user
+                )
+
 @app_view.route(
         "/admin/update/<id>",
         strict_slashes=False,

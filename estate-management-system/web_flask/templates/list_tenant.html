@@ -67,8 +67,8 @@
             </ul>
 	</section>
 	<div class="list_container">
-	  <h1> List of Agent ({{ agents | length}})</h1>
-	  <input type="text" id="searchBox" placeholder="Search for agents...">
+	  <h1> List of Tenant ({{ tenants | length}})</h1>
+	  <input type="text" id="searchBox" placeholder="Search for Tenant...">
 	  <table class="styled-table">
 	   <thead>
 	   <tr>
@@ -79,7 +79,7 @@
 	   </tr>
 	   </thead>
 	   <tbody id="agentTableBody">
-	  {% for v in agents  %}
+	  {% for v in tenants  %}
 	  <tr>
 	    <td> {{ v.full_name }} </td>
 	    <td> {{ v.phone_no }} </td>

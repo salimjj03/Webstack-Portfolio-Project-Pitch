@@ -14,14 +14,14 @@ class Occufied_house(Base, base_db):
 
     tenant_id = Column(
             String(45),
-            ForeignKey("tenants.id", ondelete="CASCADE"),
-            nullable=False
+            ForeignKey("tenants.id", ondelete="SET NULL"),
+            nullable=True
             )
 
     house_id = Column(
             String(45),
-            ForeignKey("houses.id", ondelete="CASCADE"),
-            nullable=False
+            ForeignKey("houses.id", ondelete="SET NULL"),
+            nullable=True
             )
 
     occufied_status = Column(Integer, default=1)

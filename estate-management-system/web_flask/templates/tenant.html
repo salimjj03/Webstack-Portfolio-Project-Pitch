@@ -61,7 +61,6 @@
 	</section>
 	<div class="img">
 		<h1> Active rent</h1>
-	  {% if houses  %}
 	  {% for house in user.active_rent() %}
 	  <div class="image-box">
             <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.house_id }}.jpg" alt="House Image"></a>
@@ -70,14 +69,11 @@
  	    <p style="color: #808080">{{ house.location  }}</p>
 	  </div>
     	  {% endfor  %}
-	  {% else %}
 	  <p class="nill" style="color: #808080">You have no active ret, Click on Available House to make reservation</p>
-	  {% endif  %}
 	</div>
 
 	<div class="img">
                 <h1> Previous rent</h1>
-	  {% if Houses %}
           {% for house in user.previous_rent() %}
            <div class="image-box">
 	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.house_id }}.jpg" alt="House Image"></a>
@@ -86,9 +82,7 @@
 	    <p style="color: #808080"><b>Peyment Status: </b>{{ "Paid" if house.payment_status == 1 else "Not Paid"  }}</p>
           </div>
           {% endfor  %}
-	  {% else %}
 	  <div class="nill" style="color: #808080">No previous rent.</div>
-	  {% endif %}
         </div>
     </div>
     <footer>

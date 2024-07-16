@@ -6,12 +6,23 @@ from flask import Flask, render_template, make_response, request
 from flask import session, redirect, url_for, abort
 from views import app_view
 from models import storage
+from apscheduler.schedulers.background import BackgroundScheduler
 import os
 
 app = Flask(__name__)
 app.register_blueprint(app_view)
 app.secret_key = "*****"
 app.config['UPLOAD_FOLDER'] = 'web_flask/static/uploads/'
+
+def schedule_jobs():
+    """Function to schedule periodic jobs."""
+    with app.app_context():
+        storage.expire_reservation()
+        storage.expire_rent()
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(schedule_jobs, "interval", seconds=5)
+scheduler.start()
 
 # Ensure the upload folder exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):

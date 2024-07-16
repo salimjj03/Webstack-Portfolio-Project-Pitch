@@ -1,0 +1,73 @@
+.list_container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1.2em;
+    font-family: 'Arial', sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #22CE83;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #22CE83;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #22CE83;
+}
+
+.action-button {
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #22CE83;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.action-button.delete {
+    background-color: #d9534f;
+}
+
+.action-button:hover {
+    opacity: 0.8;
+}
+
+#searchBox {
+    width: 93%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+

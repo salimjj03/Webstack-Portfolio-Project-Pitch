@@ -6,6 +6,7 @@
     <link rel="stylesheet"  type="text/css" href="/sstatic/style/reset.css">
     <link rel="stylesheet"  type="text/css" href="/static/style/admin_agent.css">
     <link rel="stylesheet"  type="text/css" href="/static/style/form.css">
+    <link rel="stylesheet"  type="text/css" href="/static/style/dropdown.css">
     <title>Estate Ease</title>
     <style>
 	a {
@@ -28,8 +29,17 @@
 	  <p class="role">Making Real Estate Simple</p>
 	  </div>
 	  <ul class="nav">
+            <div class="dropdown">
+                  <button class="dropbtn">Agent / House</button>
+                  <div class="dropdown-content">
+                  <a href="/admin/add_house">Add house</a>
+                  <a href="/admin/list_house">View House</a>
+                  <a href="/admin/add_agent">Add Agent</a>
+                  <a href="/admin/list_agent">View Agent</a>
+               </div>
+            </div>
+
 	    <a href="/admin"><b>Home</b></a>
-            <a href="/admin/add_house"><b>AddHouse</b></a>
             <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>

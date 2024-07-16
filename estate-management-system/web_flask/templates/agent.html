@@ -60,10 +60,6 @@
 	    <h2 style="color: #808080">{{ house.price }} per annum</h2>
 	    <p style="color: #808080">{{ house.house_type  }}</p>
  	    <p style="color: #808080">{{ house.location  }}</p>
-            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
-	      <input type="file" name="file">
-              <button type="submit"> submit </button>
-            </form>
 
 	  </div>
     	  {% endfor  %}
@@ -73,18 +69,15 @@
                 <h1> occupied House ({{ user.occufied() | length}})</h1>
           {% for house in user.occufied() %}
            <div class="image-box">
-	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
+	    <a href="/house/{{ house.occufied_id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
 
             <h2 style="color: #808080">{{ house.price }} per annum</h2>
             <p style="color: #808080">{{ house.house_type  }}</p>
             <p style="color: #808080">{{ house.location  }}</p>
-            <form class="upload" action="/upload/{{ house.id }}"  method="post" enctype="multipart/form-data">
-              <input type="file" name="file">
-              <button type="submit"> submit </button>
-            </form>
 
           </div>
           {% endfor  %}
+
         </div>
     </div>
     <footer>

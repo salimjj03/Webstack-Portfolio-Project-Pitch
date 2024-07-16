@@ -75,5 +75,12 @@ class Base:
 
         from models import storage
 
-        cls = self.__class__.__name__
-        return storage.update(cls, self.id, **kwarg)
+        return storage.update(self.__class__.__name__, self.id, **kwarg)
+
+    def delete(self):
+        """
+        """
+
+        from models import storage
+
+        return storage.delete_obj(self)
