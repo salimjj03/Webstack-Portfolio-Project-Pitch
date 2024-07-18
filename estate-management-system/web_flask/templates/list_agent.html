@@ -72,6 +72,7 @@
 	  <table class="styled-table">
 	   <thead>
 	   <tr>
+	     <th><b> Id</b></th>
 	     <th><b> Full Name</b></th>
 	     <th><b>Phone no</b></th>
 	     <th><b>email</b></th>
@@ -81,6 +82,7 @@
 	   <tbody id="agentTableBody">
 	  {% for v in agents  %}
 	  <tr>
+	    <td> {{ v.id }} </td>
 	    <td> {{ v.full_name }} </td>
 	    <td> {{ v.phone_no }} </td>
 	    <td> {{ v.email  }}  </td>
@@ -114,11 +116,12 @@
     $('#searchBox').on('keyup', function() {
        const searchQuery = $(this).val().toLowerCase();
        $('#agentTableBody tr').each(function() {
-          const fullName = $(this).find('td').eq(0).text().toLowerCase();
-          const phoneNo = $(this).find('td').eq(1).text().toLowerCase();
-          const email = $(this).find('td').eq(2).text().toLowerCase();
+          const id = $(this).find('td').eq(0).text().toLowerCase();
+          const fullName = $(this).find('td').eq(1).text().toLowerCase();
+          const phoneNo = $(this).find('td').eq(2).text().toLowerCase();
+          const email = $(this).find('td').eq(3).text().toLowerCase();
 
-          if (fullName.includes(searchQuery) || phoneNo.includes(searchQuery) || email.includes(searchQuery)) {
+          if (fullName.includes(searchQuery) || phoneNo.includes(searchQuery) || id.includes(searchQuery) || email.includes(searchQuery)) {
               $(this).show();
           } else {
               $(this).hide();

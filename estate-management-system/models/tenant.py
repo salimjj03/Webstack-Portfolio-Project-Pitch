@@ -81,13 +81,11 @@ class Tenant(User, base_db):
         from models import storage
 
         dic = {
-                "occufied_status": 0,
-                "tenant_id": self.id,
-                "payment_status": 1
+                "tenant_id": self.id
                 }
 
         prev_rent = storage.find_many_by_key(
-                "Occufied_house",
+                "Rent_history",
                 **dic
                 )
 

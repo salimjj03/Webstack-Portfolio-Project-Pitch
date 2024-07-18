@@ -33,6 +33,8 @@ def house(house_id):
     if house is None:
         occ_house = storage.find_obj_by_key("Occufied_house", id=house_id)
         if occ_house is None:
+            occ_house = storage.find_obj_by_key("Rent_history", id=house_id)
+        if occ_house is None:
             return "None"
         else:
             house = storage.find_obj_by_key("House", id=occ_house.house_id)
@@ -49,7 +51,10 @@ def house(house_id):
             "Tenant",
             id=occ_house.tenant_id
             )
-        status = "Occupied"
+        if occ_house.__class__.__name__ == "Rent_history":
+            status = "Expired"
+        else:
+            status = "Occupied"
 
     agent = storage.find_obj_by_key(
                 "Agent",

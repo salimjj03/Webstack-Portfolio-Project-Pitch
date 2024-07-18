@@ -65,7 +65,8 @@
 	  <p class="role">Making Real Estate Simple</p>
 	  </div>
 	  <ul class="nav">
-	    <a href="{{ path }}"><b>Home</b></a>
+	    <a href="{{ path }}"><b>Dashboard</b></a>
+	    <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>
     <div class="container">
@@ -82,9 +83,18 @@
 	  </div>
 	  {% endif  %}
 
-	  {% if status == "Un occupied"  %}
+	  {% if status == "Un occupied"%}
 	  <h2 style="color: red">{{ status  }}</h2>
 	  {% endif  %}
+
+	  {% if status == "Expired" %}
+	  <div>
+          <h2 style="color: red">{{ status  }}</h2>
+	  <h3 class="h_status">expired on {{ occ_house.expire_date }}</h3>
+	  </div>
+
+          {% endif  %}
+
 	</section>
 	<div class="img">
 	  <div class="image-box">
@@ -112,7 +122,11 @@
             <p><b>Agent:</b> {{ agent.full_name }}</p>
 	    {% if tenant  %}
             <p><b>Occupied id:</b> {{ occ_house.id }}</p>
+	    {% if status == "Expired" %}
+	    <p><b>Peymanet Status: </b> Paid </p>
+	    {% else %}
 	    <p><b>Peyment Status: </b>{{ "Paid" if occ_house.payment_status == 1 else "Not Paid"  }}</p>
+	    {% endif %}
             <p><b>Tenan:</b> {{ tenant.full_name }}</p>
             <p><b>Start date:</b> {{ occ_house.created_at }}</p>
             <p><b>Expiry date:</b> {{ occ_house.expire_date }}</p>

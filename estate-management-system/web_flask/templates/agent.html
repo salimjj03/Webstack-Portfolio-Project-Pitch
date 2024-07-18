@@ -24,7 +24,7 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-	img {
+	img .conhtainer, .img {
 		background-color: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 	}
@@ -72,6 +72,11 @@
 	    <a href="/house/{{ house.occufied_id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
 
             <h2 style="color: #808080">{{ house.price }} per annum</h2>
+	    {% if house.payment_status == 1 %}
+            <p style="color: #22CE83"><b>Peyment Status: </b>Paid</p>
+            {% else %}
+            <p style="color: red"><b>Peyment Status: </b>Not Paid</p>
+            {% endif %}
             <p style="color: #808080">{{ house.house_type  }}</p>
             <p style="color: #808080">{{ house.location  }}</p>
 

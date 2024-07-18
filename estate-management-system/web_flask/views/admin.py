@@ -137,7 +137,7 @@ def list_tenant():
 
         return render_template(
                 "list_tenant.html",
-                tenant=tenants,
+                tenants=tenants,
                 user=user
                 )
 

@@ -11,10 +11,20 @@ from models.user import User
 from models.house import House
 from models.agent import Agent
 from models.tenant import Tenant
+from models.rent_history import Rent_history
 from models.occufied_house import Occufied_house
+from models.rent_history import Rent_history
 from datetime import datetime
 
-classes = [User, Agent, Tenant, House, Occufied_house, Admin]
+classes = [
+        User,
+        Agent,
+        Tenant,
+        House,
+        Occufied_house,
+        Admin,
+        Rent_history
+        ]
 
 class Db():
     """
@@ -282,10 +292,20 @@ class Db():
                     id=expire.house_id
                     )
             print("expired_rent: {}".format(house.id))
+            dic = {
+                    "tenant_id": expire.tenant_id,
+                    "agent_id": house.agent_id,
+                    "house_id": house.id,
+                    "expire_date": expire.expire_date,
+                    "price": house.price
+                    }
+
             house.occufied_id = None
             expire.occufied_status = 0
             house.updated_at = now
-            expire.updated_at = now
+            rent_history = Rent_history(**dic)
+            self.__session.add(rent_history)
+            self.__session.delete(expire)
         self.__session.commit()
         print("checking expired rent")
 

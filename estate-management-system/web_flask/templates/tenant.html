@@ -24,7 +24,7 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-	img .nill {
+	img .nill, .conhtainer, .img {
 		background-color: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 	}
@@ -65,8 +65,12 @@
 	  <div class="image-box">
             <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.house_id }}.jpg" alt="House Image"></a>
 	    <p style="color: #808080"><b>House id: </b>{{ house.id  }}</p>
-	    <p style="color: #808080"><b>Peyment Status: </b>{{ "Paid" if house.payment_status == 1 else "Not Paid"  }}</p>
- 	    <p style="color: #808080">{{ house.location  }}</p>
+	    {% if house.payment_status == 1 %}
+	    <p style="color: #22CE83"><b>Peyment Status: </b>Paid</p>
+	    {% else %}
+	    <p style="color: red"><b>Peyment Status: </b>Not Paid</p>
+	    {% endif %}
+	    <p style="color: #808080">{{ house.location  }}</p>
 	  </div>
     	  {% endfor  %}
 	  <p class="nill" style="color: #808080">You have no active ret, Click on Available House to make reservation</p>
@@ -79,7 +83,7 @@
 	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.house_id }}.jpg" alt="House Image"></a>
 
 	    <p style="color: #808080"><b>House id: </b>{{ house.id  }}</p>
-	    <p style="color: #808080"><b>Peyment Status: </b>{{ "Paid" if house.payment_status == 1 else "Not Paid"  }}</p>
+	    <p style="color: #808080"><b>Amount: </b>{{ house.price  }}</p>
           </div>
           {% endfor  %}
 	  <div class="nill" style="color: #808080">No previous rent.</div>
