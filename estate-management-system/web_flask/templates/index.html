@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  type="text/css" href="/sstatic/style/reset.css">
+    <link rel="stylesheet"  type="text/css" href="/static/style/admin_agent.css">
+    <link rel="stylesheet"  type="text/css" href="/static/style/dropdown.css">
+    <title>Estate Ease</title>
+    <style>
+	a {
+              text-decoration: none;
+              color: black;
+         }
+
+	a:hover {
+	    border-left: solid 5px #22CE83;
+	    padding-left: 3px;
+            color: black;
+        }
+
+	.image-box {
+            border: none;
+            background-color: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+	img, .conhtainer, .img {
+		background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.agent-box {
+		display: flex;
+		jjustify-content: center;
+		align-items: center;
+		gap: 2remp;
+
+	}
+
+	.symbol {
+		display: flex;
+		justify-content: center;
+                align-items: center;
+		border: solid 5px white;
+		border-radius: 50%;
+		width: 70px;
+		height: 70px;
+		font-size: 60px;
+		color: white;
+		background-color: #22CE83;
+
+	}
+
+	 .welcome-message {
+		 width: 96%;
+		 height: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+	    flex-direction: column;
+	    justify-content: center;
+                align-items: center;
+
+        }
+        .welcome-message h1 {
+	    font-size: 60px;
+        }
+        .welcome-message p {
+            font-size: 1.2em;
+	    font-size: 30px
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+	  <div class="p">
+	  <p class="name"><b>Estate<span>Ease<span></b></p>
+	  <p class="role">Making Real Estate Simple</p>
+	  </div>
+	  <ul class="nav">
+              <a href="/login"><b>Sign in | Registration</b></a>
+	  </ul>
+    </header>
+    <div class="container">
+	<section class="miini-nav">
+	</section>
+	<div class="welcome-message">
+	<h1>Welcome to Estate<span style="color: #22CE83">Ease</span></h1>
+        <p>Making Real Estate Simple</p>
+    </div>
+
+        <div class="img">
+          <h1> Our Agent(s) ({{ agents | length }})</h1>
+          {% for agent in agents %}
+          <div class="image-box">
+           <div class="agent-box">
+            <div class="symbol">
+                    {{ agent.full_name[0].upper() }}
+            </div>
+            <div>
+              <h2 style="color: #808080">{{ agent.full_name }}</h2>
+              <p style="color: #808080">{{ agent.phone_no }}</p>
+              <p style="color: #808080">{{ agent.email  }}</p>
+            </div>
+           </div>
+          </div>
+          {% endfor  %}
+        </div>
+
+	<div class="img">
+		<h1> Available House(s) for rent ({{ houses | length }})</h1>
+	  {% for house in houses %}
+	  <div class="image-box">
+		  <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
+    
+	    <h2 style="color: #808080">{{ house.price }} per annum</h2>
+	    <p style="color: #808080">{{ house.house_type  }}</p>
+ 	    <p style="color: #808080">{{ house.location  }}</p>
+	  </div>
+    	  {% endfor  %}
+	</div>
+
+    </div>
+    <footer>
+        <p>&copy; 2024 EstateEase. All rights reserved.</p>
+    </footer>
+</body>
+</html>

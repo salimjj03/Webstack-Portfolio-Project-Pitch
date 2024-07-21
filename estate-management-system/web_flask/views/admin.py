@@ -167,16 +167,17 @@ def list_house():
 @app_view.route(
         "/admin/update/<id>",
         strict_slashes=False,
-        methods=["PUT"]
+        methods=["POST"]
         )
 def update(id):
     """
     """
 
-    if request.method == "PUT":
-        update_key = request.get_json()
+    print(request.path)
+    if request.method == "POST":
+        update_key = request.form
         if update_key is None:
-            return ("Empty request")
+            return jsonify("Empty request")
         for cls in ["Admin", "Agent", "Tenant", "House"]:
             obj = storage.find_obj_by_key(
                     cls,
@@ -184,8 +185,8 @@ def update(id):
                     )
             if obj is not None:
                 response = obj.update(**update_key)
-                return "Update successufully" if response is True else response
-        return("Invalid class or id")
+                return jsonify("Update successufully") if response is True else jsonify(request.path)
+        return jsonify("Invalid class or id")
 
 
 @app_view.route(

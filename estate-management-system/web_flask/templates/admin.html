@@ -64,7 +64,7 @@
             </ul>
 	</section>
 	<div class="img">
-		<h1> Un occupied House ({{ user.un_occufied() | length}})</h1>
+		<h1> Unoccupied House(s) ({{ user.un_occufied() | length}})</h1>
 	  {% for house in user.un_occufied() %}
 	  <div class="image-box">
 		  <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>
@@ -82,7 +82,7 @@
 	</div>
 
 	<div class="img">
-                <h1> occupied House ({{ user.occufied() | length}})</h1>
+                <h1> Occupied House(s) ({{ user.occufied() | length}})</h1>
           {% for house in user.occufied() %}
            <div class="image-box">
 	    <a href="/house/{{ house.id  }}"><img src="../static/uploads/{{ house.id }}.jpg" alt="House Image"></a>

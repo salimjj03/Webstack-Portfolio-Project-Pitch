@@ -81,24 +81,30 @@
 	   </thead>
 	   <tbody id="agentTableBody">
 	  {% for v in agents  %}
-	  <tr>
-	    <td> {{ v.id }} </td>
-	    <td> {{ v.full_name }} </td>
-	    <td> {{ v.phone_no }} </td>
-	    <td> {{ v.email  }}  </td>
-	    <td>
-  	      <div class="form-container" id="{{ v.id  }}" style="display: none">
-                <form id="{{ v.id  }}">
-                    fullname<input type='radio' id='fullname' value='full_name' name='update'><br>
-                    phone No<input type='radio' id='phone_number' value='phone_no' name='update'><br>
-                    password<input type='radio' id='password' value='password' name='update'><br>
+          <tr>
+            <td> {{ v.id }} </td>
+            <td> {{ v.full_name }} </td>
+            <td> {{ v.phone_no }} </td>
+            <td> {{ v.email  }}  </td>
+            <td>
+              <div id="form-con{{ v.id  }}" style="display: none">
+                <form id="form-{{ v.id }}" class="form-container">
+                  <label for "full_name">Full_name</label>
+                  <input type='text' id='full_name'  name='full_name'><br>
+                  <label for "phone_no">Phone No:</label>
+                  <input type='text' id='phone_no'  name='phone_no'><br>
+                  <label for "password">password</label>
+                  <input type='text' id='password' name='password'><br>
+                  <button type="submit" class="submit" value="{{ v.id }}"> Update </button>
+                  <p id="status-{{ v.id }}"></p>
                 </form>
               </div>
-	      <button class="action-button" value="{{ v.id  }}">Edit</button>
-	      <button class="action-button delete" value="{{ v.id  }}">Delete</button>
-	    </td>
-	  </tr>
-  	  {% endfor  %}
+              <button class="action-button" data-id="{{ v.id  }}">Edit</button>
+              <button class="action-button delete" value="{{ v.id  }}">Delete</button>
+            </td>
+          </tr>
+          {% endfor  %}
+
 	   </tbody>
 	  </table>
 	  <p id="test"></p>
@@ -110,8 +116,6 @@
 
 <script>
   $(function(){
-
-    $("input[type='radio']").prop("checked", false);
 
     $('#searchBox').on('keyup', function() {
        const searchQuery = $(this).val().toLowerCase();
@@ -130,38 +134,33 @@
     });
 
     $(".action-button").on("click", function(){
-       var value = $("INPUT[name='update']:checked").val()
-       if (value) {
-          var name = prompt("update " + value)
-	  if (!name) {
-            return
-	  }
-        if (value === "full_name") {
-          dic = JSON.stringify({full_name: name})
-        } else if (value === "phone_no") {
-          dic = JSON.stringify({phone_no: name});
-        } else if (value === "password") {
-          dic = JSON.stringify({password: name})
-        }
-        $.ajax({
-			url: "/admin/update/" + $(this).val(),
-          data: dic,
-          contentType: "application/json",
-          method: "PUT",
-          success: function(res) {
-	   alert(res)
-	   location.reload()
-          },
-	error: function(xhr, status, error) {
-	  alert(error)
-	  location.reload()
-	}
-	})
-	}
-	var t = $(this).val();
-	$("#" + t).fadeIn()
-	$("#test").val(t)
+        var id = $(this).data("id");
+        $("#form-con" + id).fadeIn()
+    })
+    
+    $(".form-container").on("submit", function(event) {
+      var id = $(this).find("button[type='submit']").val()
+      event.preventDefault();
+      const result = confirm("Are you sure to update: " + $(this).serialize())
+      if (!result) {
+        return
+      }
+      $.ajax({
+         url: "/admin/update/" + id,
+         method: "POST",
+         data: $(this).serialize(),
+         success: function(response) {
+           $("#status-" + id).text(response)
+           alert(response)
+           location.reload()
+           },
+         error: function(xls, status, err) {
+           $("#status-" + id).text("error")
+         }
       })
+    })
+
+
     $(".action-button.delete").on("click", function(){
       var id = $(this).val();
       dic = JSON.stringify({id: id})

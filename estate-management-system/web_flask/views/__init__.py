@@ -13,4 +13,5 @@ from views.agent import *
 from views.tenant import *
 from views.login import *
 from views.house import *
+from views.index import *
 

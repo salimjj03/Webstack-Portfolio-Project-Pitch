@@ -218,6 +218,8 @@ class Db():
         if obj:
             for key, value in kwarg.items():
                 if key in obj.to_dict():
+                    if value is None or value == "":
+                        continue
                     setattr(obj, key, value)
                     obj.updated_at = datetime.utcnow()
                     print("{} updated successifully".format(key))

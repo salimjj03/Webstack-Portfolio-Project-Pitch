@@ -21,7 +21,7 @@ def schedule_jobs():
         storage.expire_rent()
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(schedule_jobs, "interval", seconds=5)
+scheduler.add_job(schedule_jobs, "interval", seconds=60)
 scheduler.start()
 
 # Ensure the upload folder exists

@@ -94,24 +94,30 @@
 	   </thead>
 	   <tbody id="agentTableBody">
 	  {% for v in houses  %}
-	  <tr>
+          <tr>
 	    <td> {{ v.id }} </td>
-	    <td> {{ v.agent_id }} </td>
-	    <td> {{ v.house_type }} </td>
-	    <td> {{ v.location }} </td>
-	    <td> {{ v.price  }}  </td>
-	    <td>
-  	      <div class="form-container" id="{{ v.id  }}" style="display: none">
-                <form id="{{ v.id  }}">
-                    agent_id<input type='radio' id='agent_id' value='agent_id' name='update'><br>
-                    Type<input type='radio' id='fullname' value='house_type' name='update'><br>
-                    Location<input type='radio' id='phone_number' value='location' name='update'><br>
-                    Price<input type='radio' id='password' value='price' name='update'><br>
+            <td> {{ v.agent_id }} </td>
+            <td> {{ v.house_type }} </td>
+            <td> {{ v.location }} </td>
+            <td> {{ v.price  }}  </td>
+            <td>
+              <div id="form-con{{ v.id  }}" style="display: none">
+                <form id="form-{{ v.id }}" class="form-container">
+                  <label for "agent_id">Agent_id:</label>
+                  <input type='text'  name='agent_id'><br>
+                  <label for "house_type">House type</label>
+                  <input type='text' name='house_type'><br>
+		  <label for "location">Location</label>
+                  <input type='text' name='location'><br>
+		  <label for "price">Price</label>
+                  <input type='text' name='price'><br>
+                  <button type="submit" class="submit" value="{{ v.id }}"> Update </button>
+                  <p id="status-{{ v.id }}"></p>
                 </form>
               </div>
-	      <button class="action-button" value="{{ v.id  }}">Edit</button>
-	      <button class="action-button delete" value="{{ v.id  }}">Delete</button>
-	    </td>
+              <button class="action-button" data-id="{{ v.id  }}">Edit</button>
+              <button class="action-button delete" value="{{ v.id  }}">Delete</button>
+            </td>
 	  </tr>
   	  {% endfor  %}
 	   </tbody>
@@ -146,40 +152,32 @@
     });
 
     $(".action-button").on("click", function(){
-       var value = $("INPUT[name='update']:checked").val()
-       if (value) {
-          var name = prompt("update " + value)
-	  if (!name) {
-            return
-	  }
-        if (value === "house_type") {
-          dic = JSON.stringify({house_type: name})
-        } else if (value === "agent_id") {
-          dic = JSON.stringify({agent_id: name});
-        } else if (value === "location") {
-          dic = JSON.stringify({location: name});
-        } else if (value === "price") {
-          dic = JSON.stringify({price: name})
-        }
-        $.ajax({
-			url: "/admin/update/" + $(this).val(),
-          data: dic,
-          contentType: "application/json",
-          method: "PUT",
-          success: function(res) {
-	   alert(res)
-	   location.reload()
-          },
-	error: function(xhr, status, error) {
-	  alert(error)
-	  location.reload()
-	}
-	})
-	}
-	var t = $(this).val();
-	$("#" + t).fadeIn()
-	$("#test").val(t)
+        var id = $(this).data("id");
+        $("#form-con" + id).fadeIn()
+    })
+    
+    $(".form-container").on("submit", function(event) {
+      var id = $(this).find("button[type='submit']").val()
+      event.preventDefault();
+      const result = confirm("Are you sure to update: " + $(this).serialize())
+      if (!result) {
+        return
+      }
+      $.ajax({
+         url: "/admin/update/" + id,
+         method: "POST",
+         data: $(this).serialize(),
+         success: function(response) {
+           $("#status-" + id).text(response)
+           alert(response)
+           location.reload()
+           },
+         error: function(xls, status, err) {
+           $("#status-" + id).text("error")
+         }
       })
+    })
+    
     $(".action-button.delete").on("click", function(){
       var id = $(this).val();
       dic = JSON.stringify({id: id})

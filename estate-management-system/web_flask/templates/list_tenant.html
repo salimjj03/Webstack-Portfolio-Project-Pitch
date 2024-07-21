@@ -55,18 +55,18 @@
 	  <p class="role">Making Real Estate Simple</p>
 	  </div>
 	  <ul class="nav">
-	      <div class="dropdown">
-        	 	<button class="dropbtn">Agent / House</button>
-        		<div class="dropdown-content">
-            			<a href="/admin/add_house">Add house</a>
-            			<a href="/admin/list_house">View House</a>
-            			<a href="/admin/add_agent">Add Agent</a>
-            			<a href="/admin/list_agent">View Agent</a>
-              			<a href="/admin/list_tenant"><b>View Tenant</b></a>
-        		</div>
-    		</div>
-              <a href="/admin"><b>Home</b></a>
-              <a href="/logout"><b>Logout</b></a>
+	    <div class="dropdown">
+              <button class="dropbtn">Agent / House</button>
+                <div class="dropdown-content">
+            	  <a href="/admin/add_house">Add house</a>
+            	  <a href="/admin/list_house">View House</a>
+            	  <a href="/admin/add_agent">Add Agent</a>
+            	  <a href="/admin/list_agent">View Agent</a>
+              	  <a href="/admin/list_tenant"><b>View Tenant</b></a>
+                </div>
+    	    </div>
+            <a href="/admin"><b>Home</b></a>
+            <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>
     <div class="container">
@@ -85,6 +85,7 @@
 	  <table class="styled-table">
 	   <thead>
 	   <tr>
+	     <th><b> Id </b></th>
 	     <th><b> Full Name</b></th>
 	     <th><b>Phone no</b></th>
 	     <th><b>email</b></th>
@@ -94,25 +95,30 @@
 	   <tbody id="agentTableBody">
 	  {% for v in tenants  %}
 	  <tr>
+	    <td> {{ v.id }} </td>
 	    <td> {{ v.full_name }} </td>
 	    <td> {{ v.phone_no }} </td>
 	    <td> {{ v.email  }}  </td>
 	    <td>
-  	      <div class="form-container" id="{{ v.id  }}" style="display: none">
-                <form id="{{ v.id  }}">
-                    fullname<input type='radio' id='fullname' value='full_name' name='update'><br>
-                    phone No<input type='radio' id='phone_number' value='phone_no' name='update'><br>
-                    password<input type='radio' id='password' value='password' name='update'><br>
+  	      <div id="form-con{{ v.id  }}" style="display: none">
+		<form id="form-{{ v.id }}" class="form-container">
+		  <label for "full_name">Full_name</label>
+		  <input type='text' id='full_name'  name='full_name'><br>
+		  <label for "phone_no">Phone No:</label>
+                  <input type='text' id='phone_no'  name='phone_no'><br>
+		  <label for "password">password</label>
+                  <input type='text' id='password' name='password'><br>
+		  <button type="submit" class="submit" value="{{ v.id }}"> Update </button>
+		  <p id="status-{{ v.id }}"></p>
                 </form>
               </div>
-	      <button class="action-button" value="{{ v.id  }}">Edit</button>
+	      <button class="action-button" data-id="{{ v.id  }}">Edit</button>
 	      <button class="action-button delete" value="{{ v.id  }}">Delete</button>
 	    </td>
 	  </tr>
   	  {% endfor  %}
 	   </tbody>
 	  </table>
-	  <p id="test"></p>
 	</div>
     </div>
     <footer>
@@ -122,16 +128,17 @@
 <script>
   $(function(){
 
-    $("input[type='radio']").prop("checked", false);
-
     $('#searchBox').on('keyup', function() {
        const searchQuery = $(this).val().toLowerCase();
-       $('#agentTableBody tr').each(function() {
-          const fullName = $(this).find('td').eq(0).text().toLowerCase();
-          const phoneNo = $(this).find('td').eq(1).text().toLowerCase();
-          const email = $(this).find('td').eq(2).text().toLowerCase();
 
-          if (fullName.includes(searchQuery) || phoneNo.includes(searchQuery) || email.includes(searchQuery)) {
+       $('#agentTableBody tr').each(function() {
+
+          const id = $(this).find('td').eq(0).text().toLowerCase();
+          const fullName = $(this).find('td').eq(1).text().toLowerCase();
+          const phoneNo = $(this).find('td').eq(2).text().toLowerCase();
+          const email = $(this).find('td').eq(3).text().toLowerCase();
+
+          if (fullName.includes(searchQuery) || phoneNo.includes(searchQuery) || id.includes(searchQuery) || email.includes(searchQuery)) {
               $(this).show();
           } else {
               $(this).hide();
@@ -140,38 +147,32 @@
     });
 
     $(".action-button").on("click", function(){
-       var value = $("INPUT[name='update']:checked").val()
-       if (value) {
-          var name = prompt("update " + value)
-	  if (!name) {
-            return
-	  }
-        if (value === "full_name") {
-          dic = JSON.stringify({full_name: name})
-        } else if (value === "phone_no") {
-          dic = JSON.stringify({phone_no: name});
-        } else if (value === "password") {
-          dic = JSON.stringify({password: name})
-        }
-        $.ajax({
-			url: "/admin/update/" + $(this).val(),
-          data: dic,
-          contentType: "application/json",
-          method: "PUT",
-          success: function(res) {
-	   alert(res)
+        var id = $(this).data("id");
+        $("#form-con" + id).fadeIn()
+    })
+    
+    $(".form-container").on("submit", function(event) {
+      var id = $(this).find("button[type='submit']").val()
+      event.preventDefault();
+      const result = confirm("Are you sure to update: " + $(this).serialize())
+      if (!result) {
+        return
+      }
+      $.ajax({
+         url: "/admin/update/" + id,
+         method: "POST",
+         data: $(this).serialize(),
+         success: function(response) {
+           $("#status-" + id).text(response)
+	   alert(response)
 	   location.reload()
-          },
-	error: function(xhr, status, error) {
-	  alert(error)
-	  location.reload()
-	}
-	})
-	}
-	var t = $(this).val();
-	$("#" + t).fadeIn()
-	$("#test").val(t)
+           },
+         error: function(xls, status, err) {
+           $("#status-" + id).text("error")
+         }
       })
+    })
+
     $(".action-button.delete").on("click", function(){
       var id = $(this).val();
       dic = JSON.stringify({id: id})
@@ -194,7 +195,6 @@
         }
       })
   })
-     $("#test").text()
 })
 </script>
 </body>
