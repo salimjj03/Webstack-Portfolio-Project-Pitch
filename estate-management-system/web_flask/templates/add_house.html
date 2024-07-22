@@ -36,6 +36,8 @@
                   <a href="/admin/list_house">List House</a>
                   <a href="/admin/add_agent">Add Agent</a>
                   <a href="/admin/list_agent">List Agent</a>
+                  <a href="/admin/list_admin">List Admin</a>
+                  <a href="/admin/list_tenant">List Tenant</a>
                </div>
             </div>
 
@@ -57,7 +59,7 @@
 	  <p class="login-status2"><b>{{ s_status  }}</b></p>
           <form action="/admin/add_house" method="POST">
 
-	    <label for="name">Agent name:</label>
+	    <label for="name">Agent name:<span style="color: red"> *</span></label>
 	     <select name="agent_id" required>
 		<option value="">Select</option>
 		{% for agent in agents  %}
@@ -65,13 +67,13 @@
 		{% endfor %}
             </select>
 
-	    <label for="name">Price:</label>
+	    <label for="name">Price:<span style="color: red"> *</span></label>
             <input type="text" id="name" name="price" required>
 
-	    <label for="name">Location:</label>
+	    <label for="name">Location:<span style="color: red"> *</span></label>
             <input type="text" id="name" name="location" required>
 
-            <label for="name">House type:</label>
+            <label for="name">House type:<span style="color: red"> *</span></label>
             <input type="text" id="name" name="house_type" required>
 
 	    <label for="name">Discription:</label>

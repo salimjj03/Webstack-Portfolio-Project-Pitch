@@ -16,7 +16,7 @@ def house(house_id):
     agent = None
     tenant = None
     occ_house = None
-    status = "Un occupied"
+    status = "Unoccupied"
 
 
     path = session.get("role")

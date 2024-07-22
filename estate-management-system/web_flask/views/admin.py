@@ -120,6 +120,28 @@ def list_agent():
 
 
 @app_view.route(
+        "/admin/list_admin",
+        strict_slashes=False,
+        methods=["GET", "POST"]
+        )
+def list_admin():
+    """
+    """
+
+    if request.method == "GET":
+        admins = storage.all("Admin")
+        user = storage.find_obj_by_key(
+                "Admin",
+                email=session["email"]
+                )
+
+        return render_template(
+                "list_admin.html",
+                admins=admins,
+                user=user
+                )
+
+@app_view.route(
         "/admin/list_tenant",
         strict_slashes=False,
         methods=["GET", "POST"]

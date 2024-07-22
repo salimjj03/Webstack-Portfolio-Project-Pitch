@@ -43,18 +43,18 @@
 	  </div>
 	  <ul class="nav">
 	    <div class="dropdown">
-              <button class="dropbtn">Agent / House</button>
+              <button class="dropbtn">Agent | House</button>
         	<div class="dropdown-content">
             	  <a href="/admin/add_house">Add house</a>
             	  <a href="/admin/list_house">View House</a>
             	  <a href="/admin/add_agent">Add Agent</a>
             	  <a href="/admin/list_agent">View Agent</a>
-              	  <a href="/admin/list_admin">View Admin</a>
+            	  <a href="/admin/list_admin">View Admin</a>
               	  <a href="/admin/list_tenant">View Tenant</a>
         	</div>
-    	     </div>
-             <a href="/admin"><b>Home</b></a>
-             <a href="/logout"><b>Logout</b></a>
+    	    </div>
+            <a href="/admin"><b>Home</b></a>
+            <a href="/logout"><b>Logout</b></a>
 	  </ul>
     </header>
     <div class="container">
@@ -64,11 +64,11 @@
 	    <p class="role">{{ user.__class__.__name__  }}</p>
 	  </div>
 	    <ul class="nav">
-	      <a href="/admin"><h2 style="color: #808080"`>Dashboard</h2></a>
+		    <a href="/admin"><h2 style="color: #808080"`>Dashboard</h2></a>
             </ul>
 	</section>
 	<div class="list_container">
-	  <h1> List of Agent ({{ agents | length}})</h1>
+	  <h1> List of Admin ({{ admins | length}})</h1>
 	  <input type="text" id="searchBox" placeholder="Search for agents...">
 	  <table class="styled-table">
 	   <thead>
@@ -81,7 +81,7 @@
 	   </tr>
 	   </thead>
 	   <tbody id="agentTableBody">
-	  {% for v in agents  %}
+	  {% for v in admins  %}
           <tr>
             <td> {{ v.id }} </td>
             <td> {{ v.full_name }} </td>

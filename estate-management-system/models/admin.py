@@ -55,24 +55,3 @@ class Admin(User, base_db):
         from models import storage
 
         return storage.un_occufied()
-
-    def delete(self, cls, id):
-        """
-        """
-
-        from models import storage
-
-        if storage.delete(cls, id):
-            return True
-        return False
-
-    def update(self, cls, id, **kwarg):
-        """
-        this method update obj if it exist
-        """
-
-        from models import storage
-
-        if storage.update(cls, id, **kwarg):
-            return True
-        return False
