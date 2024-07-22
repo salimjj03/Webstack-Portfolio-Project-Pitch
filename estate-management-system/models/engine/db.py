@@ -15,6 +15,7 @@ from models.rent_history import Rent_history
 from models.occufied_house import Occufied_house
 from models.rent_history import Rent_history
 from datetime import datetime
+from os import getenv
 
 classes = [
         User,
@@ -41,7 +42,11 @@ class Db():
         """
 
         Db.__engine = create_engine(
-            "mysql+mysqldb://salem:root@localhost/estate", echo=False
+            "mysql+mysqldb://{}:{}@localhost/{}".format(
+                getenv('USER'),
+                getenv('PASS'),
+                getenv('DB')
+                ), echo=False
             )
 
         base_db.metadata.create_all(Db.__engine)

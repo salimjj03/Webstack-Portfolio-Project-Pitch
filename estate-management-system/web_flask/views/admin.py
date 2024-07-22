@@ -10,6 +10,7 @@ from models.admin import Admin
 from models.agent import Agent
 from models.house import House
 from models.utill import Utill
+import os
 
 
 @app_view.route("/admin", strict_slashes=False)
@@ -82,13 +83,31 @@ def add_house():
     agents = storage.all("Agent")
 
     if request.method == "GET":
-        return render_template("add_house.html", user=user, agents=agents)
+        return render_template(
+                "add_house.html",
+                user=user,
+                agents=agents
+                )
 
     if request.method == "POST":
-        data = request.form
-        house = House(**data)
-        house.price = "₦{}".format(house.price)
-        house.save()
+
+
+        if 'file' not in request.files:
+            return "No file part"
+        file = request.files["file"]
+        if file.filename == '':
+            return "No selected file"
+        if file:
+            data = request.form
+            house = House(**data)
+            house.price = "₦{}".format(house.price)
+            house.save()
+            filename = "{}.jpg".format(house.id)
+            file.save(os.path.join(
+                'web_flask/static/uploads/',
+                filename
+                )
+                )
         return render_template(
                 "add_house.html",
                 user=user,

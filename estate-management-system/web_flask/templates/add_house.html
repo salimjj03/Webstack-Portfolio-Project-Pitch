@@ -57,7 +57,7 @@
           <h2>Add New House</h2>
 	  <p class="login-status"><b>{{ f_status  }}</b></p>
 	  <p class="login-status2"><b>{{ s_status  }}</b></p>
-          <form action="/admin/add_house" method="POST">
+          <form action="/admin/add_house" method="POST" enctype="multipart/form-data">
 
 	    <label for="name">Agent name:<span style="color: red"> *</span></label>
 	     <select name="agent_id" required>
@@ -78,6 +78,11 @@
 
 	    <label for="name">Discription:</label>
             <input type="text" id="name" name="discription">
+
+	    <label for="name">Upload Image:</label>
+            <input type="file" id="name" name="file" accept=".png, .jpg, .jpeg">
+
+
 
             <input type="submit" value="Add House">
           </form>
