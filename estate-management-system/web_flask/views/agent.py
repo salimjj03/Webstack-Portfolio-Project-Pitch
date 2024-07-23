@@ -11,6 +11,7 @@ from models import storage
 @app_view.route("/agent", strict_slashes=False)
 def agent():
     """
+    this route return the agent dashboard
     """
     
     if session.get("role") != "Agent":
@@ -24,6 +25,7 @@ def agent():
         )
 def approve_payment(occupied_id):
     """
+    this route is used to approve payment
     """
 
     agent = storage.find_obj_by_key("Agent", email=session["email"])
@@ -42,6 +44,7 @@ def approve_payment(occupied_id):
         )
 def cancel_payment(occupied_id):
     """
+    this route is used to cancel payment
     """
 
     agent = storage.find_obj_by_key("Agent", email=session["email"])

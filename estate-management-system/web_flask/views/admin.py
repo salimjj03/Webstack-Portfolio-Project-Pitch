@@ -16,6 +16,7 @@ import os
 @app_view.route("/admin", strict_slashes=False)
 def admin():
     """
+    return the admin dashboard
     """
 
     if session.get("role") != "Admin":
@@ -31,6 +32,8 @@ def admin():
         )
 def add_agent():
     """
+    return the page containing form for adding
+    agent and admin
     """
     
     user = storage.find_obj_by_key(
@@ -74,6 +77,8 @@ def add_agent():
         )
 def add_house():
     """
+    return the page containing form for adding
+    house
     """
 
     user = storage.find_obj_by_key(
@@ -122,6 +127,8 @@ def add_house():
         )
 def list_agent():
     """
+    return the page containing list of agent
+    that can be edited and delete
     """
 
     if request.method == "GET":
@@ -145,6 +152,8 @@ def list_agent():
         )
 def list_admin():
     """
+    return the page containing list of admin
+    that can be edited and delete
     """
 
     if request.method == "GET":
@@ -167,6 +176,8 @@ def list_admin():
         )
 def list_tenant():
     """
+    return the page containing list of tenant
+    that can be edited and delete
     """
 
     if request.method == "GET":
@@ -190,6 +201,8 @@ def list_tenant():
         )
 def list_house():
     """
+    return the page containing list of house
+    that can be edited and delete
     """
 
     if request.method == "GET":
@@ -212,6 +225,8 @@ def list_house():
         )
 def update(id):
     """
+    this route is use to update object based on
+    it's id
     """
 
     print(request.path)
@@ -237,6 +252,8 @@ def update(id):
         )
 def delete(id):
     """
+    this route is use to delete object based on
+    it's id
     """
 
     if request.method == "DELETE":

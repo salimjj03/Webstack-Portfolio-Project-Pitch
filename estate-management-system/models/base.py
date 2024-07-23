@@ -79,6 +79,8 @@ class Base:
 
     def delete(self):
         """
+        this method is used to delete object
+        from database
         """
 
         from models import storage

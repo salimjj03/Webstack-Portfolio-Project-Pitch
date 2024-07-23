@@ -1,12 +1,17 @@
 #!/usr/bin/python3
+"""
+user module
+"""
 
 from models.base import base_db, Base
 from sqlalchemy import Column, String, Integer
 
 
 class User(Base):
-
-#    __tablename__ = "users"
+    """
+    user class which will be inherited by
+    all type of users
+    """
 
     full_name = Column(String(45), nullable=False)
     user_name = Column(String(45), nullable=False, unique=True)

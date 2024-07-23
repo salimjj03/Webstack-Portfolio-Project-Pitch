@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+web flask aplication module
 """
 
 from flask import Flask, render_template, make_response, request
@@ -15,7 +16,9 @@ app.secret_key = "*****"
 app.config['UPLOAD_FOLDER'] = 'web_flask/static/uploads/'
 
 def schedule_jobs():
-    """Function to schedule periodic jobs."""
+    """
+    Function to schedule periodic jobs.
+    """
     with app.app_context():
         storage.expire_reservation()
         storage.expire_rent()
@@ -31,6 +34,11 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 
 @app.route('/upload/<filenamee>', methods=['POST'])
 def upload_file(filenamee):
+    """
+    this route use POST method to upload
+    files to the application
+    """
+
     if 'file' not in request.files:
         return "No file part"
     file = request.files["file"]
@@ -44,6 +52,7 @@ def upload_file(filenamee):
 @app.before_request
 def befor_request():
     """
+    this function will be run befor each request
     """
 
     paths = ["/admin", "/tenant", "/agent", "/house"]
@@ -67,6 +76,7 @@ def befor_request():
 @app.errorhandler(404)
 def _404(error):
     """
+    this function handle 404 error
     """
 
     err = {"error": "Not Found"}

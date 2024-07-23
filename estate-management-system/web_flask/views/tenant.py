@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+tenant blue_print view
 """
 
 from views import app_view
@@ -13,6 +14,7 @@ from models.tenant import Tenant
 @app_view.route("/tenant", strict_slashes=False)
 def tenant():
     """
+    return the dashboard of the tenant
     """
 
     tenant = storage.find_obj_by_key(
@@ -25,6 +27,7 @@ def tenant():
 @app_view.route("/tenant/available_house", strict_slashes=False)
 def available_house():
     """
+    return the list of available house
     """
 
     tenant = storage.find_obj_by_key(
@@ -45,6 +48,7 @@ def available_house():
         )
 def reserve_house(house_id):
     """
+    use to reserve a house based on the hoouse id
     """
 
     tenant = storage.find_obj_by_key(
@@ -64,6 +68,8 @@ def reserve_house(house_id):
         )
 def cancel_reservation(occupied_id):
     """
+    use to cancel reserve a house based
+    on the hoouse id
     """
 
     tenant = storage.find_obj_by_key(
@@ -83,6 +89,8 @@ def cancel_reservation(occupied_id):
         )
 def roll_over(occupied_id):
     """
+    allow tenant to re occupied his current rent
+    before it expired
     """
 
     tenant = storage.find_obj_by_key(
@@ -102,6 +110,7 @@ def roll_over(occupied_id):
         strict_slashes=False)
 def add_tenant():
     """
+    add a new tenant
     """
 
     if request.method == "GET":

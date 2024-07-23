@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+tenant module
 """
 
 from datetime import datetime, timedelta
@@ -12,12 +13,16 @@ from models.occufied_house import Occufied_house
 
 class Tenant(User, base_db):
     """
+    tenant class which in herite from
+    user model and sqlalchemy declarative base.
     """
 
     __tablename__ = "tenants"
 
     def reserve_house(self, house_id):
         """
+        this method allow tenant to make reservation
+        if the house is exist and not occupied
         """
 
         from models import storage
@@ -61,6 +66,8 @@ class Tenant(User, base_db):
 
     def active_rent(self):
         """
+        this Method return the list of active rent
+        based on the current user.
         """
         
         from models import storage
@@ -76,6 +83,8 @@ class Tenant(User, base_db):
 
     def previous_rent(self):
         """
+        this Method return the list of previous rent
+        based on the current user.
         """
 
         from models import storage
@@ -94,6 +103,8 @@ class Tenant(User, base_db):
 
     def roll_over(self, occupied_id):
         """
+        This method allow tenant to re-occupie his
+        active rent befor it expired
         """
             
         from models import storage
@@ -150,14 +161,24 @@ class Tenant(User, base_db):
 
     def cancel_reservation(self, occufied_id):
         """
+        This method allow tenant to cancel reservation
+        befor making payment
         """
 
         from models import storage
 
-        house = storage.find_obj_by_key(Occufied_house, id=occufied_id)
+        house = storage.find_obj_by_key(
+                Occufied_house,
+                id=occufied_id
+                )
+
         if house and house.tenant_id == self.id:
             if house.payment_status == 0 and house.occufied_status == 1:
-                occupied_house = storage.find_obj_by_key(House, id=house.house_id)
+                occupied_house = storage.find_obj_by_key(
+                        House,
+                        id=house.house_id
+                        )
+
                 if house.id == occupied_house.occufied_id:
                     occupied_house.update(occufied_id=None)
                     house.delete()
@@ -167,7 +188,9 @@ class Tenant(User, base_db):
                             occufied_status=1
                             )
                     if previous_rent is not None:
-                        occupied_house.update(occufied_id=previous_rent.id)
+                        occupied_house.update(
+                                occufied_id=previous_rent.id
+                                )
                 print("reservation cancel")
                 return True
             return ("This reservation can not be cancel")

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+occupied house modle
 """
 
 from models.base import base_db, Base
@@ -8,6 +9,8 @@ from sqlalchemy import Column, String, ForeignKey, Integer, DateTime
 
 class Occufied_house(Base, base_db):
     """
+    occupied house class which inherit from Base class
+    and sqlalchemy declarative base
     """
 
     __tablename__ = "occufied_houses"

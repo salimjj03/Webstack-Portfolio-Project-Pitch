@@ -239,6 +239,8 @@ class Db():
 
     def delete_obj(self, obj):
         """
+        this method delete object base
+        on object
         """
 
         self.__session.merge(obj)
@@ -283,6 +285,8 @@ class Db():
 
     def expire_rent(self):
         """
+        This method is used to check for expired
+        ren and move the record to rent history
         """
 
         now = datetime.now()
@@ -319,6 +323,8 @@ class Db():
 
     def expire_reservation(self):
         """
+        This method is used to check for expire reservation
+        and delete it.
         """
 
         now = datetime.now()

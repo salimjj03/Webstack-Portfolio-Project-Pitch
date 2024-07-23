@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+house module
 """
 
 from models.base import base_db, Base
@@ -8,6 +9,8 @@ from sqlalchemy import Column, String, ForeignKey, Integer
 
 class House(Base, base_db):
     """
+    house class which inherit from Base class and
+    sqlalchemy declarative base
     """
 
     __tablename__ = "houses"

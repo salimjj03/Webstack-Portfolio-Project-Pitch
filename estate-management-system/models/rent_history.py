@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+Rent  history module
 """
 
 
@@ -9,6 +10,8 @@ from sqlalchemy import Column, String, ForeignKey, DateTime
 
 class Rent_history(Base, base_db):
     """
+    The Rent histor class that will keep
+    the record of tenant reservation
     """
 
     __tablename__ = "rent_histories"

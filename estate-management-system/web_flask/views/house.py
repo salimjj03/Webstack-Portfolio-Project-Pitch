@@ -8,15 +8,12 @@ from flask import redirect, url_for, render_template
 from flask import session
 
 
-@app_view.route("/house", strict_slashes=False)
 @app_view.route("/house/<house_id>", strict_slashes=False)
-def house(house_id=None):
+def house(house_id):
     """
+    return the view of a house base on it's id
     """
     
-    if house_id == None:
-        return "ok"
-
     agent = None
     tenant = None
     occ_house = None

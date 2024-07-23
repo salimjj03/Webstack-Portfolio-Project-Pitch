@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+admin class
 """
 
 from models.user import User
@@ -9,6 +10,7 @@ from models.base import base_db
 
 class Admin(User, base_db):
     """
+    admin class
     """
 
     __tablename__ = "admins"

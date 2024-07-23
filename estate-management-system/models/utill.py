@@ -1,16 +1,21 @@
 #!/usr/bin/python3
 """
+Utility module
 """
 
 from models import storage
 
 class Utill():
     """
+    the Utility class that will used to
+    for method that are not related
     """
     
     @classmethod
     def is_valid_user(cls, email, password):
         """
+        This method is used when logging to validate
+        user login detailes
         """
 
         if email is not None and password is not None:
@@ -29,6 +34,8 @@ class Utill():
     @classmethod
     def is_key_exist(cls, **kwarg):
         """
+        this method is used to check if key
+        exist
         """
         
         ls = ["email", "phone_no", "user_name"]

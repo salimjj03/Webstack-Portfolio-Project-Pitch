@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+agent module
 """
 
 from models.user import User
@@ -9,6 +10,7 @@ from datetime import datetime, timedelta
 
 class Agent(User, base_db):
     """
+    agent class
     """
 
     __tablename__ = "agents"
@@ -36,6 +38,8 @@ class Agent(User, base_db):
 
     def approve_payment(self, occupied_id):
         """
+        This method is used to approve tenant peyment
+        using tenant id
         """
 
         from models import storage
@@ -57,7 +61,7 @@ class Agent(User, base_db):
         if house.agent_id != self.id:
             return "Agent is not the owner of House"
 
-        expire_date = datetime.now() + timedelta(minutes=1)
+        expire_date = datetime.now() + timedelta(days=365)
         if occ_house.occufied_status == 1:
             occ_house.update(
                     payment_status=1,
@@ -67,6 +71,8 @@ class Agent(User, base_db):
 
     def cancel_payment(self, occupied_id):
         """
+        this method is used to cancel tenant payment
+        after approval.
         """
 
         from models import storage
@@ -97,9 +103,3 @@ class Agent(User, base_db):
             return True
         return "House is not occupied"
 
-
-    def roll_over(self):
-        """
-        """
-
-        pass

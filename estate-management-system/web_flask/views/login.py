@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+lpgin blue-print view
 """
 
 from views import app_view
@@ -12,6 +13,8 @@ from models.utill import Utill
 @app_view.route("/login", methods={"GET", "POST"}, strict_slashes=False)
 def login():
     """
+    return the login page if the method is GET or
+    return the user dashboard if the method is POST
     """
 
     if request.method == "POST":
@@ -40,8 +43,11 @@ def login():
 
 @app_view.route("/logout", strict_slashes=False)
 def logout():
-    """ this endpoint is used to logout from user. """
+    """
+    this endpoint is used to logout from user.
+    """
 
     session.pop("email", None)
+    session.pop("role", None)
     return redirect(url_for("app_view.login"))
 
